@@ -1,0 +1,10 @@
+{
+  "name": "QR Code Generator",
+  "short_name": "QR Generator",
+  "description": "Offline QR code generation app",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": []
+}
