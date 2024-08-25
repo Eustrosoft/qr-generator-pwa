@@ -1,5 +1,11 @@
 body {
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+label,
+textarea {
+  display: block;
 }
