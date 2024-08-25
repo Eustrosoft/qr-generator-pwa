@@ -95,7 +95,7 @@ class FormControlBuilder {
           { name: "name", value: "qrCellSize" },
           { name: "type", value: "number" },
           { name: "min", value: 2 },
-          { name: "max", value: 100 },
+          { name: "max", value: 50 },
         ],
       },
       {
@@ -106,6 +106,7 @@ class FormControlBuilder {
           { name: "name", value: "qrMargin" },
           { name: "type", value: "number" },
           { name: "min", value: 0 },
+          { name: "max", value: 50 },
         ],
       },
     ];
