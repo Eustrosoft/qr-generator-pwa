@@ -360,16 +360,10 @@ class QRCodeApp {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     const qrStr = this.#makeQRStringByType(qrType, data);
-    console.log(qrStr);
     this.#generateQRCode(qrStr);
   }
 
   #makeQRStringByType(qrType, data) {
-    // tel:88005553535
-    // SMSTO:88005553535:Better to call than loan from anyone
-    // mailto:example@email.com?subject=QR&body=Info
-    // WIFI:S:QR_WIFI;T:WPA;P:QR_WIFI_PASS;;
-    console.log(qrType, data);
     switch (qrType) {
       case FormControlBuilder.QR_TYPE_OPT_LIST.STRING.value: {
         return data[
