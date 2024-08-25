@@ -4,8 +4,12 @@ body {
   flex-direction: column;
 }
 
-input,
-label,
-textarea {
+label {
   display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

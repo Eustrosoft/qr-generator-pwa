@@ -18,7 +18,6 @@ self.addEventListener("install", (event) => {
 
 // Intercept fetch requests and serve cached files
 self.addEventListener("fetch", (event) => {
-  console.log(event.request);
   event.respondWith(
     caches
       .match(event.request)

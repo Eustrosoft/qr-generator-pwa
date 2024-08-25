@@ -1,33 +1,147 @@
 class FormControlBuilder {
-  static get QR_TYPE_SELECT_ID() {
-    return "qr-type-select";
+  static get QR_SETTINGS_FORM_ID() {
+    return "qr-settings-form-id";
   }
 
-  static get QR_TYPE_OPT_LIST() {
+  static get QR_SETTINGS_FORM_NAME() {
+    return "qr-settings-form-name";
+  }
+
+  static get QR_SETTINGS_FORM_CONTROLS() {
+    return [
+      {
+        tagName: "select",
+        attributes: [{ name: "name", value: "qrFormType" }],
+      },
+      {
+        tagName: "select",
+        label: "Select Type Number: ",
+        attributes: [{ name: "name", value: "qrTypeNumber" }],
+        options: [
+          {
+            value: "0",
+            label: "Auto Detect",
+          },
+          ...Array.from({ length: 40 }, (_, i) => ({
+            value: (i + 1).toString(),
+            label: (i + 1).toString(),
+          })),
+        ],
+      },
+      {
+        tagName: "select",
+        label: "Select Error Correction Level: ",
+        attributes: [{ name: "name", value: "qrErrCorrectionLevel" }],
+        options: [
+          {
+            value: "L",
+            label: "L(7%)",
+          },
+          {
+            value: "M",
+            label: "M(15%)",
+            selected: true,
+          },
+          {
+            value: "Q",
+            label: "Q(25%)",
+          },
+          {
+            value: "H",
+            label: "H(30%)",
+          },
+        ],
+      },
+      {
+        tagName: "select",
+        label: "Select Mode: ",
+        attributes: [{ name: "name", value: "qrMode" }],
+        options: [
+          {
+            value: "Numeric",
+            label: "Numeric",
+          },
+          {
+            value: "Alphanumeric",
+            label: "Alphanumeric",
+          },
+          {
+            value: "Byte",
+            label: "Byte",
+            selected: true,
+          },
+          {
+            value: "Kanji",
+            label: "Kanji",
+          },
+        ],
+      },
+      {
+        tagName: "select",
+        label: "Select Representation: ",
+        attributes: [{ name: "name", value: "qrRepresentation" }],
+        options: [
+          { value: "gif", label: "gif", selected: true },
+          { value: "svg", label: "svg", selected: false },
+          { value: "base64", label: "base64", selected: false },
+          { value: "table", label: "HTML Table", selected: false },
+        ],
+      },
+      {
+        tagName: "input",
+        label: "Cell Size: ",
+        makeInputDisplayBlock: false,
+        attributes: [
+          { name: "name", value: "qrCellSize" },
+          { name: "type", value: "number" },
+          { name: "min", value: 2 },
+          { name: "max", value: 100 },
+        ],
+      },
+      {
+        tagName: "input",
+        label: "Margin: ",
+        makeInputDisplayBlock: false,
+        attributes: [
+          { name: "name", value: "qrMargin" },
+          { name: "type", value: "number" },
+          { name: "min", value: 0 },
+        ],
+      },
+    ];
+  }
+
+  static get QR_FORM_TYPE_OPT_LIST() {
     return {
       STRING: {
         value: "string",
         label: "String",
+        selected: true,
       },
       TEXT: {
         value: "text",
         label: "Text",
+        selected: false,
       },
       TEL: {
         value: "tel",
         label: "Telephone",
+        selected: false,
       },
       SMS: {
         value: "sms",
         label: "SMS",
+        selected: false,
       },
       EMAIL: {
         value: "email",
         label: "E-mail",
+        selected: false,
       },
       WIFI: {
         value: "wifi",
         label: "WI-FI",
+        selected: false,
       },
     };
   }
@@ -152,10 +266,12 @@ class FormControlBuilder {
             {
               value: "WPA",
               label: "WPA",
+              selected: true,
             },
             {
               value: "WEP",
               label: "WEP",
+              selected: false,
             },
           ],
         },
@@ -170,7 +286,7 @@ class FormControlBuilder {
   makeSelect({
     labelText = "Select QR Code Type: ",
     selectAttributes = [],
-    options = FormControlBuilder.QR_TYPE_OPT_LIST,
+    options = FormControlBuilder.QR_FORM_TYPE_OPT_LIST,
     makeSelectDisplayBlock = false,
   } = {}) {
     const selectLabel = document.createElement("label");
@@ -185,6 +301,9 @@ class FormControlBuilder {
       const opt = document.createElement("option");
       opt.setAttribute("value", optList[i].value);
       opt.append(optList[i].label);
+      if (optList[i]?.selected) {
+        opt.setAttribute("selected", "selected");
+      }
       selectElement.add(opt);
     }
 
@@ -231,6 +350,7 @@ class FormControlBuilder {
     tagName = "input",
     label = "",
     attributes = [{ name: "type", value: "text" }],
+    makeInputDisplayBlock = false,
   }) {
     const labelEl = document.createElement("label");
     labelEl.append(label);
@@ -240,14 +360,59 @@ class FormControlBuilder {
       input.setAttribute(attribute.name, attribute.value);
     }
 
+    if (makeInputDisplayBlock) {
+      input.style.display = "block";
+    }
+
     labelEl.appendChild(input);
     return labelEl;
+  }
+
+  makeFormWithControls({ form, controls = [] }) {
+    for (const control of controls) {
+      switch (control.tagName) {
+        case "input": {
+          const input = this.makeTextField({
+            tagName: control.tagName,
+            label: control.label,
+            attributes: control.attributes,
+            makeInputDisplayBlock: control?.makeInputDisplayBlock ?? true,
+          });
+          form.append(input);
+          break;
+        }
+        case "textarea": {
+          const input = this.makeTextField({
+            tagName: control.tagName,
+            label: control.label,
+            attributes: control.attributes,
+            makeInputDisplayBlock: control?.makeInputDisplayBlock ?? true,
+          });
+          form.append(input);
+          break;
+        }
+        case "select": {
+          const select = this.makeSelect({
+            labelText: control.label,
+            selectAttributes: control.attributes,
+            options: control.options,
+            makeSelectDisplayBlock: control?.makeSelectDisplayBlock ?? false,
+          });
+          form.append(select);
+          break;
+        }
+        default: {
+          throw new Error(`No constructor for tagName: ${control.tagName}`);
+        }
+      }
+    }
+    return form;
   }
 }
 
 class QRCodeApp {
   #formBuilder;
-  #selectContainer = document.getElementById("select-qr-type-container");
+  #qrSettingsContainer = document.getElementById("qr-settings-container");
   #formContainer = document.getElementById("form-container");
   #generateButtonContainer = document.getElementById(
     "generate-button-container",
@@ -265,21 +430,26 @@ class QRCodeApp {
   }
 
   #setupElements() {
-    this.#setupQrTypeSelect();
+    this.#setupQrSettingsForm();
     this.#setupForm();
     this.#setupGenerateButton();
   }
 
-  #setupQrTypeSelect() {
-    const selectElement = this.#formBuilder.makeSelect({
-      selectAttributes: [
-        { name: "id", value: FormControlBuilder.QR_TYPE_SELECT_ID },
-      ],
+  #setupQrSettingsForm() {
+    const settingsForm = this.#formBuilder.makeForm({
+      formId: FormControlBuilder.QR_SETTINGS_FORM_ID,
+      formName: FormControlBuilder.QR_SETTINGS_FORM_NAME,
     });
-    this.#selectContainer.appendChild(selectElement);
+
+    const filledForm = this.#formBuilder.makeFormWithControls({
+      form: settingsForm,
+      controls: FormControlBuilder.QR_SETTINGS_FORM_CONTROLS,
+    });
+
+    this.#qrSettingsContainer.append(filledForm);
   }
 
-  #setupForm(formType = FormControlBuilder.QR_TYPE_OPT_LIST.STRING.value) {
+  #setupForm(formType = FormControlBuilder.QR_FORM_TYPE_OPT_LIST.STRING.value) {
     this.#formContainer.replaceChildren();
 
     const form = this.#formBuilder.makeForm({
@@ -294,43 +464,12 @@ class QRCodeApp {
       throw new Error(`No controls defined for type ${formType}`);
     }
 
-    for (const control of formControls) {
-      switch (control.tagName) {
-        case "input": {
-          const input = this.#formBuilder.makeTextField({
-            tagName: control.tagName,
-            label: control.label,
-            attributes: control.attributes,
-          });
-          form.append(input);
-          break;
-        }
-        case "textarea": {
-          const input = this.#formBuilder.makeTextField({
-            tagName: control.tagName,
-            label: control.label,
-            attributes: control.attributes,
-          });
-          form.append(input);
-          break;
-        }
-        case "select": {
-          const select = this.#formBuilder.makeSelect({
-            labelText: control.label,
-            selectAttributes: control.attributes,
-            options: control.options,
-            makeSelectDisplayBlock: control?.makeSelectDisplayBlock ?? false,
-          });
-          form.append(select);
-          break;
-        }
-        default: {
-          throw new Error(`No constructor for tagName: ${control.tagName}`);
-        }
-      }
-    }
+    const filledForm = this.#formBuilder.makeFormWithControls({
+      form,
+      controls: formControls,
+    });
 
-    this.#formContainer.appendChild(form);
+    this.#formContainer.appendChild(filledForm);
   }
 
   #setupGenerateButton() {
@@ -340,49 +479,92 @@ class QRCodeApp {
 
   #bindEvents() {
     document
-      .getElementById(FormControlBuilder.QR_TYPE_SELECT_ID)
-      .addEventListener("change", this.#handleSelectChange.bind(this));
+      .getElementById(FormControlBuilder.QR_SETTINGS_FORM_ID)
+      .elements[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value
+      ].addEventListener("change", this.#handleSelectChange.bind(this));
   }
 
   #handleSelectChange(event) {
-    this.#qrCodeContainer.innerHTML = "";
+    this.#qrCodeContainer.replaceChildren();
+    this.#qrCodeContainer.style.cssText = "";
     this.#setupForm(event.target.value);
   }
 
   #handleFormSubmit(form) {
-    if (!form.checkValidity()) {
+    const settingsForm = document.getElementById(
+      FormControlBuilder.QR_SETTINGS_FORM_ID,
+    );
+    settingsForm.requestSubmit();
+
+    if (!form.checkValidity() || !settingsForm.checkValidity()) {
       return;
     }
+    const qrSettingsFormData = new FormData(settingsForm);
+    const qrSettingsData = Object.fromEntries(qrSettingsFormData);
 
-    const qrType = document.getElementById(
-      FormControlBuilder.QR_TYPE_SELECT_ID,
-    ).value;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    const qrStr = this.#makeQRStringByType(qrType, data);
-    this.#generateQRCode(qrStr);
+    const qrFormType =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value
+      ];
+    const typeNumber =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[1].attributes[0].value
+      ];
+    const errorCorrectionLevel =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[2].attributes[0].value
+      ];
+    const mode =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[3].attributes[0].value
+      ];
+    const representation =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].attributes[0].value
+      ];
+    const cellSize =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[5].attributes[0].value
+      ];
+    const margin =
+      qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[6].attributes[0].value
+      ];
+    const qrFormData = new FormData(form);
+    const qrData = Object.fromEntries(qrFormData);
+    const qrStr = this.#makeQRStringByType(qrFormType, qrData);
+    this.#generateQRCode({
+      data: qrStr,
+      typeNumber,
+      errorCorrectionLevel,
+      mode,
+      representation,
+      cellSize,
+      margin,
+    });
   }
 
-  #makeQRStringByType(qrType, data) {
-    switch (qrType) {
-      case FormControlBuilder.QR_TYPE_OPT_LIST.STRING.value: {
+  #makeQRStringByType(qrFormType, data) {
+    switch (qrFormType) {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.STRING.value: {
         return data[
           FormControlBuilder.DATA_FORM_CONTROLS.STRING[0].attributes[0].value
         ];
       }
-      case FormControlBuilder.QR_TYPE_OPT_LIST.TEXT.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value: {
         return data[
           FormControlBuilder.DATA_FORM_CONTROLS.TEXT[0].attributes[0].value
         ];
       }
-      case FormControlBuilder.QR_TYPE_OPT_LIST.TEL.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEL.value: {
         const tel =
           data[
             FormControlBuilder.DATA_FORM_CONTROLS.TEL[0].attributes[0].value
           ];
         return `tel:${tel ?? ""}`;
       }
-      case FormControlBuilder.QR_TYPE_OPT_LIST.SMS.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.SMS.value: {
         const tel =
           data[
             FormControlBuilder.DATA_FORM_CONTROLS.SMS[0].attributes[0].value
@@ -393,7 +575,7 @@ class QRCodeApp {
           ];
         return `SMSTO:${tel ?? ""}:${text ?? ""}`;
       }
-      case FormControlBuilder.QR_TYPE_OPT_LIST.EMAIL.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.EMAIL.value: {
         const email =
           data[
             FormControlBuilder.DATA_FORM_CONTROLS.EMAIL[0].attributes[0].value
@@ -408,7 +590,7 @@ class QRCodeApp {
           ];
         return `mailto:${email ?? ""}?subject=${subject ?? ""}&body=${body ?? ""}`;
       }
-      case FormControlBuilder.QR_TYPE_OPT_LIST.WIFI.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.WIFI.value: {
         const ssid =
           data[
             FormControlBuilder.DATA_FORM_CONTROLS.WIFI[0].attributes[0].value
@@ -424,16 +606,54 @@ class QRCodeApp {
         return `WIFI:S:${ssid ?? ""}T:${encryption ?? ""};P:${password ?? ""};;`;
       }
       default:
-        throw new Error(`Unknown type ${qrType}`);
+        throw new Error(`Unknown type ${qrFormType}`);
     }
   }
 
-  #generateQRCode(data) {
+  #generateQRCode({
+    data = "",
+    typeNumber = 0,
+    errorCorrectionLevel = "M",
+    mode = "Byte",
+    representation = "gif",
+    cellSize = 2,
+    margin = 4,
+  }) {
     qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
-    const qr = qrcode(0, "L");
-    qr.addData(data);
+    const qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData(data, mode);
     qr.make();
-    this.#qrCodeContainer.innerHTML = qr.createSvgTag({ scalable: true });
+    this.#qrCodeContainer.style.cssText = "";
+    switch (representation) {
+      case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[0].value: {
+        this.#qrCodeContainer.innerHTML = qr.createImgTag(cellSize, margin);
+        break;
+      }
+      case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[1].value: {
+        this.#qrCodeContainer.style.width = "50%";
+        this.#qrCodeContainer.innerHTML = qr.createSvgTag({
+          cellSize: "",
+          margin: "",
+          scalable: true,
+        });
+        break;
+      }
+      case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[2].value: {
+        this.#qrCodeContainer.style.border = "1px solid #ccc";
+        this.#qrCodeContainer.style.padding = "10px";
+        this.#qrCodeContainer.style.overflowWrap = "break-word";
+        this.#qrCodeContainer.style.whiteSpace = "pre-wrap";
+        this.#qrCodeContainer.style.fontFamily = "monospace";
+        this.#qrCodeContainer.innerHTML = qr.createDataURL(cellSize, margin);
+        break;
+      }
+      case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[3].value: {
+        this.#qrCodeContainer.innerHTML = qr.createTableTag(cellSize, margin);
+        break;
+      }
+      default:
+        throw new Error(`Unsupported type of representation ${representation}`);
+    }
   }
 }
 
