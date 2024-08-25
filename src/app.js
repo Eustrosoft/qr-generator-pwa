@@ -508,7 +508,7 @@ class QRCodeApp {
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value
       ];
     const typeNumber =
-      qrSettingsData[
+      +qrSettingsData[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[1].attributes[0].value
       ];
     const errorCorrectionLevel =
@@ -524,11 +524,11 @@ class QRCodeApp {
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].attributes[0].value
       ];
     const cellSize =
-      qrSettingsData[
+      +qrSettingsData[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[5].attributes[0].value
       ];
     const margin =
-      qrSettingsData[
+      +qrSettingsData[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[6].attributes[0].value
       ];
     const qrFormData = new FormData(form);
@@ -632,8 +632,8 @@ class QRCodeApp {
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[1].value: {
         this.#qrCodeContainer.style.width = "50%";
         this.#qrCodeContainer.innerHTML = qr.createSvgTag({
-          cellSize: "",
-          margin: "",
+          cellSize,
+          margin,
           scalable: true,
         });
         break;
