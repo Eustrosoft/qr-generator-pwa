@@ -36,19 +36,22 @@ class FormControlBuilder {
           {
             value: "L",
             label: "L(7%)",
+            selected: true,
           },
           {
             value: "M",
             label: "M(15%)",
-            selected: true,
+            selected: false,
           },
           {
             value: "Q",
             label: "Q(25%)",
+            selected: false,
           },
           {
             value: "H",
             label: "H(30%)",
+            selected: false,
           },
         ],
       },
@@ -90,18 +93,17 @@ class FormControlBuilder {
       {
         tagName: "input",
         label: "Cell Size: ",
-        makeInputDisplayBlock: false,
         attributes: [
           { name: "name", value: "qrCellSize" },
           { name: "type", value: "number" },
           { name: "min", value: 2 },
           { name: "max", value: 50 },
+          { name: "value", value: 10 },
         ],
       },
       {
         tagName: "input",
         label: "Margin: ",
-        makeInputDisplayBlock: false,
         attributes: [
           { name: "name", value: "qrMargin" },
           { name: "type", value: "number" },
@@ -114,18 +116,18 @@ class FormControlBuilder {
 
   static get QR_FORM_TYPE_OPT_LIST() {
     return {
-      STRING: {
-        value: "string",
-        label: "String",
-        selected: true,
-      },
       TEXT: {
         value: "text",
         label: "Text",
+        selected: true,
+      },
+      URL: {
+        value: "url",
+        label: "URL",
         selected: false,
       },
-      TEL: {
-        value: "tel",
+      PHONE: {
+        value: "phone",
         label: "Telephone",
         selected: false,
       },
@@ -137,6 +139,11 @@ class FormControlBuilder {
       EMAIL: {
         value: "email",
         label: "E-mail",
+        selected: false,
+      },
+      CONTACT: {
+        value: "contact",
+        label: "Contact",
         selected: false,
       },
       WIFI: {
@@ -157,17 +164,6 @@ class FormControlBuilder {
 
   static get DATA_FORM_CONTROLS() {
     return {
-      STRING: [
-        {
-          tagName: "input",
-          label: "String",
-          attributes: [
-            { name: "name", value: "string" },
-            { name: "type", value: "text" },
-            { name: "placeholder", value: "Enter a string" },
-          ],
-        },
-      ],
       TEXT: [
         {
           tagName: "textarea",
@@ -176,17 +172,37 @@ class FormControlBuilder {
             { name: "name", value: "text" },
             { name: "placeholder", value: "Enter text" },
           ],
+          styles: {
+            display: "block",
+          },
         },
       ],
-      TEL: [
+      URL: [
+        {
+          tagName: "input",
+          label: "URL",
+          attributes: [
+            { name: "name", value: "url" },
+            { name: "type", value: "text" },
+            { name: "placeholder", value: "Enter a string or url" },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+      ],
+      PHONE: [
         {
           tagName: "input",
           label: "Telephone",
           attributes: [
-            { name: "name", value: "tel" },
+            { name: "name", value: "phone" },
             { name: "type", value: "tel" },
-            { name: "placeholder", value: "Enter tel" },
+            { name: "placeholder", value: "Enter phone" },
           ],
+          styles: {
+            display: "block",
+          },
         },
       ],
       SMS: [
@@ -194,10 +210,13 @@ class FormControlBuilder {
           tagName: "input",
           label: "Telephone",
           attributes: [
-            { name: "name", value: "tel" },
+            { name: "name", value: "phone" },
             { name: "type", value: "tel" },
-            { name: "placeholder", value: "Enter tel" },
+            { name: "placeholder", value: "Enter phone" },
           ],
+          styles: {
+            display: "block",
+          },
         },
         {
           tagName: "textarea",
@@ -206,6 +225,9 @@ class FormControlBuilder {
             { name: "name", value: "text" },
             { name: "placeholder", value: "Enter sms text" },
           ],
+          styles: {
+            display: "block",
+          },
         },
       ],
       EMAIL: [
@@ -217,6 +239,9 @@ class FormControlBuilder {
             { name: "type", value: "email" },
             { name: "placeholder", value: "Enter e-mail" },
           ],
+          styles: {
+            display: "block",
+          },
         },
         {
           tagName: "input",
@@ -226,14 +251,20 @@ class FormControlBuilder {
             { name: "type", value: "text" },
             { name: "placeholder", value: "Subject" },
           ],
+          styles: {
+            display: "block",
+          },
         },
         {
           tagName: "textarea",
           label: "Body",
           attributes: [
-            { name: "name", value: "body" },
+            { name: "name", value: "text" },
             { name: "placeholder", value: "Body" },
           ],
+          styles: {
+            display: "block",
+          },
         },
       ],
       WIFI: [
@@ -245,6 +276,9 @@ class FormControlBuilder {
             { name: "type", value: "text" },
             { name: "placeholder", value: "SSID" },
           ],
+          styles: {
+            display: "block",
+          },
         },
         {
           tagName: "input",
@@ -254,11 +288,13 @@ class FormControlBuilder {
             { name: "type", value: "password" },
             { name: "placeholder", value: "Password" },
           ],
+          styles: {
+            display: "block",
+          },
         },
         {
           tagName: "select",
           label: "Encryption",
-          makeSelectDisplayBlock: true,
           attributes: [
             { name: "name", value: "encryption" },
             { name: "placeholder", value: "Encryption" },
@@ -275,6 +311,9 @@ class FormControlBuilder {
               selected: false,
             },
           ],
+          styles: {
+            display: "block",
+          },
         },
       ],
     };
@@ -288,7 +327,7 @@ class FormControlBuilder {
     labelText = "Select QR Code Type: ",
     selectAttributes = [],
     options = FormControlBuilder.QR_FORM_TYPE_OPT_LIST,
-    makeSelectDisplayBlock = false,
+    styles = {},
   } = {}) {
     const selectLabel = document.createElement("label");
     selectLabel.append(labelText);
@@ -308,8 +347,8 @@ class FormControlBuilder {
       selectElement.add(opt);
     }
 
-    if (makeSelectDisplayBlock) {
-      selectElement.style.display = "block";
+    for (const key of Object.keys(styles)) {
+      selectElement.style[key] = styles[key];
     }
 
     selectLabel.appendChild(selectElement);
@@ -351,7 +390,7 @@ class FormControlBuilder {
     tagName = "input",
     label = "",
     attributes = [{ name: "type", value: "text" }],
-    makeInputDisplayBlock = false,
+    styles = {},
   }) {
     const labelEl = document.createElement("label");
     labelEl.append(label);
@@ -361,8 +400,8 @@ class FormControlBuilder {
       input.setAttribute(attribute.name, attribute.value);
     }
 
-    if (makeInputDisplayBlock) {
-      input.style.display = "block";
+    for (const key of Object.keys(styles)) {
+      input.style[key] = styles[key];
     }
 
     labelEl.appendChild(input);
@@ -377,7 +416,7 @@ class FormControlBuilder {
             tagName: control.tagName,
             label: control.label,
             attributes: control.attributes,
-            makeInputDisplayBlock: control?.makeInputDisplayBlock ?? true,
+            styles: control.styles ?? {},
           });
           form.append(input);
           break;
@@ -387,7 +426,7 @@ class FormControlBuilder {
             tagName: control.tagName,
             label: control.label,
             attributes: control.attributes,
-            makeInputDisplayBlock: control?.makeInputDisplayBlock ?? true,
+            styles: control.styles ?? {},
           });
           form.append(input);
           break;
@@ -397,7 +436,7 @@ class FormControlBuilder {
             labelText: control.label,
             selectAttributes: control.attributes,
             options: control.options,
-            makeSelectDisplayBlock: control?.makeSelectDisplayBlock ?? false,
+            styles: control.styles ?? {},
           });
           form.append(select);
           break;
@@ -450,7 +489,7 @@ class QRCodeApp {
     this.#qrSettingsContainer.append(filledForm);
   }
 
-  #setupForm(formType = FormControlBuilder.QR_FORM_TYPE_OPT_LIST.STRING.value) {
+  #setupForm(formType = FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value) {
     this.#formContainer.replaceChildren();
 
     const form = this.#formBuilder.makeForm({
@@ -548,9 +587,9 @@ class QRCodeApp {
 
   #makeQRStringByType(qrFormType, data) {
     switch (qrFormType) {
-      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.STRING.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.URL.value: {
         return data[
-          FormControlBuilder.DATA_FORM_CONTROLS.STRING[0].attributes[0].value
+          FormControlBuilder.DATA_FORM_CONTROLS.URL[0].attributes[0].value
         ];
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value: {
@@ -558,10 +597,10 @@ class QRCodeApp {
           FormControlBuilder.DATA_FORM_CONTROLS.TEXT[0].attributes[0].value
         ];
       }
-      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEL.value: {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.PHONE.value: {
         const tel =
           data[
-            FormControlBuilder.DATA_FORM_CONTROLS.TEL[0].attributes[0].value
+            FormControlBuilder.DATA_FORM_CONTROLS.PHONE[0].attributes[0].value
           ];
         return `tel:${tel ?? ""}`;
       }
@@ -590,6 +629,9 @@ class QRCodeApp {
             FormControlBuilder.DATA_FORM_CONTROLS.EMAIL[2].attributes[0].value
           ];
         return `mailto:${email ?? ""}?subject=${subject ?? ""}&body=${body ?? ""}`;
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.CONTACT.value: {
+        throw new Error("Not implemented");
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.WIFI.value: {
         const ssid =
@@ -662,17 +704,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const formBuilder = new FormControlBuilder();
   new QRCodeApp(formBuilder);
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("./service-worker.js")
-      .then((registration) => {
-        console.log(
-          "ServiceWorker registration successful with scope: ",
-          registration.scope,
-        );
-      })
-      .catch((error) => {
-        console.log("ServiceWorker registration failed: ", error);
-      });
-  }
+  // if ("serviceWorker" in navigator) {
+  //   navigator.serviceWorker
+  //     .register("./service-worker.js")
+  //     .then((registration) => {
+  //       console.log(
+  //         "ServiceWorker registration successful with scope: ",
+  //         registration.scope,
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.log("ServiceWorker registration failed: ", error);
+  //     });
+  // }
 });
