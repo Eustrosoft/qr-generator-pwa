@@ -96,7 +96,7 @@ class FormControlBuilder {
         attributes: [
           { name: "name", value: "qrCellSize" },
           { name: "type", value: "number" },
-          { name: "min", value: 2 },
+          { name: "min", value: 1 },
           { name: "max", value: 50 },
           { name: "value", value: 10 },
         ],
@@ -109,6 +109,7 @@ class FormControlBuilder {
           { name: "type", value: "number" },
           { name: "min", value: 0 },
           { name: "max", value: 50 },
+          { name: "value", value: 0 },
         ],
       },
     ];
@@ -666,6 +667,7 @@ class QRCodeApp {
     const qr = qrcode(typeNumber, errorCorrectionLevel);
     qr.addData(data, mode);
     qr.make();
+    this.#qrCodeContainer.replaceChildren();
     this.#qrCodeContainer.style.cssText = "";
     switch (representation) {
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[0].value: {
@@ -673,12 +675,20 @@ class QRCodeApp {
         break;
       }
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[1].value: {
-        this.#qrCodeContainer.style.width = "50%";
-        this.#qrCodeContainer.innerHTML = qr.createSvgTag({
+        const svgText = qr.createSvgTag({
           cellSize,
           margin,
           scalable: true,
         });
+        const encodedData = `data:image/svg+xml;base64,${btoa(svgText)}`;
+        const img = document.createElement("img");
+        const imgSize = qr.getModuleCount() * cellSize + margin * 2;
+        img.setAttribute("width", imgSize.toString());
+        img.setAttribute("height", imgSize.toString());
+        img.setAttribute("alt", "QR");
+        img.setAttribute("title", "QR");
+        img.setAttribute("src", encodedData);
+        this.#qrCodeContainer.append(img);
         break;
       }
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[2].value: {
