@@ -11,7 +11,7 @@ class FormControlBuilder {
     return [
       {
         tagName: "select",
-        attributes: [{ name: "name", value: "qrFormType" }],
+        attributes: [{ name: "name", value: "type" }],
       },
       {
         tagName: "select",
@@ -36,22 +36,18 @@ class FormControlBuilder {
           {
             value: "L",
             label: "L(7%)",
-            selected: true,
           },
           {
             value: "M",
             label: "M(15%)",
-            selected: false,
           },
           {
             value: "Q",
             label: "Q(25%)",
-            selected: false,
           },
           {
             value: "H",
             label: "H(30%)",
-            selected: false,
           },
         ],
       },
@@ -61,22 +57,21 @@ class FormControlBuilder {
         attributes: [{ name: "name", value: "qrMode" }],
         options: [
           {
-            value: "Numeric",
-            label: "Numeric",
-          },
-          {
-            value: "Alphanumeric",
-            label: "Alphanumeric",
-          },
-          {
             value: "Byte",
             label: "Byte",
-            selected: true,
           },
-          {
-            value: "Kanji",
-            label: "Kanji",
-          },
+          // {
+          //   value: "Numeric",
+          //   label: "Numeric",
+          // },
+          // {
+          //   value: "Alphanumeric",
+          //   label: "Alphanumeric",
+          // },
+          // {
+          //   value: "Kanji",
+          //   label: "Kanji",
+          // },
         ],
       },
       {
@@ -84,10 +79,10 @@ class FormControlBuilder {
         label: "Select Representation: ",
         attributes: [{ name: "name", value: "qrRepresentation" }],
         options: [
-          { value: "gif", label: "gif", selected: true },
-          { value: "svg", label: "svg", selected: false },
-          { value: "base64", label: "base64", selected: false },
-          { value: "table", label: "HTML Table", selected: false },
+          { value: "gif", label: "gif" },
+          { value: "svg", label: "svg" },
+          { value: "base64", label: "base64" },
+          { value: "table", label: "HTML Table" },
         ],
       },
       {
@@ -120,37 +115,30 @@ class FormControlBuilder {
       TEXT: {
         value: "text",
         label: "Text",
-        selected: true,
       },
       URL: {
         value: "url",
         label: "URL",
-        selected: false,
       },
       PHONE: {
         value: "phone",
         label: "Telephone",
-        selected: false,
       },
       SMS: {
         value: "sms",
         label: "SMS",
-        selected: false,
       },
       EMAIL: {
         value: "email",
         label: "E-mail",
-        selected: false,
       },
       CONTACT: {
         value: "contact",
         label: "Contact",
-        selected: false,
       },
       WIFI: {
         value: "wifi",
         label: "WI-FI",
-        selected: false,
       },
     };
   }
@@ -304,12 +292,10 @@ class FormControlBuilder {
             {
               value: "WPA",
               label: "WPA",
-              selected: true,
             },
             {
               value: "WEP",
               label: "WEP",
-              selected: false,
             },
           ],
           styles: {
@@ -451,6 +437,19 @@ class FormControlBuilder {
   }
 }
 
+class SearchParamsParser {
+  static get KEYS() {
+    return Object.freeze({
+      TYPE: "type",
+      TEXT: "text",
+    });
+  }
+
+  static parseURLSearchParams() {
+    return new URLSearchParams(new URL(window.location.href).search);
+  }
+}
+
 class QRCodeApp {
   #formBuilder;
   #qrSettingsContainer = document.getElementById("qr-settings-container");
@@ -460,6 +459,9 @@ class QRCodeApp {
   );
   #qrCodeContainer = document.getElementById("qrcode-container");
 
+  #settingsForm;
+  #currentQRForm;
+
   constructor(formBuilder) {
     this.#formBuilder = formBuilder;
     this.#init();
@@ -468,6 +470,8 @@ class QRCodeApp {
   #init() {
     this.#setupElements();
     this.#bindEvents();
+    this.#prefillSettingsForm();
+    this.#prefillQRForm();
   }
 
   #setupElements() {
@@ -487,6 +491,7 @@ class QRCodeApp {
       controls: FormControlBuilder.QR_SETTINGS_FORM_CONTROLS,
     });
 
+    this.#settingsForm = filledForm;
     this.#qrSettingsContainer.append(filledForm);
   }
 
@@ -510,6 +515,7 @@ class QRCodeApp {
       controls: formControls,
     });
 
+    this.#currentQRForm = filledForm;
     this.#formContainer.appendChild(filledForm);
   }
 
@@ -524,6 +530,31 @@ class QRCodeApp {
       .elements[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value
       ].addEventListener("change", this.#handleSelectChange.bind(this));
+  }
+
+  #prefillSettingsForm() {
+    Object.values(SearchParamsParser.KEYS).forEach((key, index) => {
+      const paramValue = SearchParamsParser.parseURLSearchParams().get(key);
+      if (paramValue === null) {
+        return;
+      }
+
+      const formControl = this.#settingsForm[key];
+      if (!formControl) {
+        throw new Error(`No such settings form control for key ${key}`);
+      }
+
+      formControl.value = paramValue.toLowerCase();
+      const event = new Event("change", {
+        bubbles: true,
+        cancelable: true,
+      });
+      formControl.dispatchEvent(event);
+    });
+  }
+
+  #prefillQRForm() {
+    return;
   }
 
   #handleSelectChange(event) {
