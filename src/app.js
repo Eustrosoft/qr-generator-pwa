@@ -246,7 +246,7 @@ class FormControlBuilder {
         },
         {
           tagName: "textarea",
-          label: "Body",
+          label: "Text",
           attributes: [
             { name: "name", value: "text" },
             { name: "placeholder", value: "Body" },
@@ -444,6 +444,13 @@ class SearchParamsParser {
       CORRECTION_LEVEL: "correctionLevel",
       FILE_TYPE: "fileType",
       TEXT: "text",
+      URL: "url",
+      PHONE: "phone",
+      EMAIL: "email",
+      SUBJECT: "subject",
+      SSID: "ssid",
+      PASSWORD: "password",
+      ENCRYPTION: "encryption",
     });
   }
 
@@ -540,47 +547,164 @@ class QRCodeApp {
       return;
     }
 
-    const qrTypeParamValue = searchParams
-      .get(SearchParamsParser.KEYS.TYPE)
-      ?.toUpperCase();
-    const qrTypeParamValueValid = Object.keys(
-      FormControlBuilder.QR_FORM_TYPE_OPT_LIST,
-    ).includes(qrTypeParamValue);
-    if (qrTypeParamValueValid) {
-      this.#patchFormControl({
-        form: this.#settingsForm,
-        formControlName: SearchParamsParser.KEYS.TYPE,
-        value: qrTypeParamValue,
-      });
+    this.#applySearchParamsToForm({
+      searchParams,
+      paramKey: SearchParamsParser.KEYS.TYPE,
+      form: this.#settingsForm,
+      formControlName: SearchParamsParser.KEYS.TYPE,
+      paramValidatorFn: (value) =>
+        Object.keys(FormControlBuilder.QR_FORM_TYPE_OPT_LIST).includes(value),
+    });
+
+    this.#applySearchParamsToForm({
+      searchParams,
+      paramKey: SearchParamsParser.KEYS.CORRECTION_LEVEL,
+      form: this.#settingsForm,
+      formControlName: SearchParamsParser.KEYS.CORRECTION_LEVEL,
+      paramValidatorFn: (value) =>
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[2].options
+          .map((opt) => opt.value)
+          .includes(value),
+    });
+
+    this.#applySearchParamsToForm({
+      searchParams,
+      paramKey: SearchParamsParser.KEYS.FILE_TYPE,
+      form: this.#settingsForm,
+      formControlName: SearchParamsParser.KEYS.FILE_TYPE,
+      paramValidatorFn: (value) =>
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options
+          .map((opt) => opt.value)
+          .includes(value),
+    });
+  }
+
+  #prefillQRForm() {
+    const searchParams = SearchParamsParser.parseURLSearchParams();
+    if (!searchParams.size) {
+      return;
     }
 
-    const qrCorrectionValue = searchParams
-      .get(SearchParamsParser.KEYS.CORRECTION_LEVEL)
-      ?.toUpperCase();
-    const isQrCorrectionValueValid =
-      FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[2].options
-        .map((opt) => opt.value)
-        .includes(qrCorrectionValue);
-    if (isQrCorrectionValueValid) {
-      this.#patchFormControl({
-        form: this.#settingsForm,
-        formControlName: SearchParamsParser.KEYS.CORRECTION_LEVEL,
-        value: qrCorrectionValue,
-      });
+    const formType =
+      this.#settingsForm[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value
+      ].value;
+    if (!formType) {
+      return;
     }
 
-    const qrFileTypeValue = searchParams
-      .get(SearchParamsParser.KEYS.FILE_TYPE)
-      ?.toUpperCase();
-    const isQrFileTypeValueValid =
-      FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options
-        .map((opt) => opt.value)
-        .includes(qrFileTypeValue);
-    if (isQrFileTypeValueValid) {
+    switch (formType) {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value: {
+        this.#applySearchParamsToForm({
+          searchParams,
+          paramKey: SearchParamsParser.KEYS.TEXT,
+          form: this.#currentQRForm,
+          formControlName: SearchParamsParser.KEYS.TEXT,
+          paramValidatorFn: (value) => typeof value === "string",
+          shouldConvertToUpperCase: false,
+        });
+        break;
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.URL.value: {
+        this.#applySearchParamsToForm({
+          searchParams,
+          paramKey: SearchParamsParser.KEYS.URL,
+          form: this.#currentQRForm,
+          formControlName: SearchParamsParser.KEYS.URL,
+          paramValidatorFn: (value) => typeof value === "string",
+          shouldConvertToUpperCase: false,
+        });
+        break;
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.PHONE.value: {
+        this.#applySearchParamsToForm({
+          searchParams,
+          paramKey: SearchParamsParser.KEYS.PHONE,
+          form: this.#currentQRForm,
+          formControlName: SearchParamsParser.KEYS.PHONE,
+          paramValidatorFn: (value) => typeof value === "string",
+          shouldConvertToUpperCase: false,
+        });
+        break;
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.SMS.value: {
+        for (const key of [
+          SearchParamsParser.KEYS.PHONE,
+          SearchParamsParser.KEYS.TEXT,
+        ]) {
+          this.#applySearchParamsToForm({
+            searchParams,
+            paramKey: key,
+            form: this.#currentQRForm,
+            formControlName: key,
+            paramValidatorFn: (value) => typeof value === "string",
+            shouldConvertToUpperCase: false,
+          });
+        }
+        break;
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.EMAIL.value: {
+        for (const key of [
+          SearchParamsParser.KEYS.EMAIL,
+          SearchParamsParser.KEYS.SUBJECT,
+          SearchParamsParser.KEYS.TEXT,
+        ]) {
+          this.#applySearchParamsToForm({
+            searchParams,
+            paramKey: key,
+            form: this.#currentQRForm,
+            formControlName: key,
+            paramValidatorFn: (value) => typeof value === "string",
+            shouldConvertToUpperCase: false,
+          });
+        }
+        break;
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.CONTACT.value: {
+        throw new Error(`Not implemented`);
+      }
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.WIFI.value: {
+        for (const key of [
+          SearchParamsParser.KEYS.SSID,
+          SearchParamsParser.KEYS.PASSWORD,
+          SearchParamsParser.KEYS.ENCRYPTION,
+        ]) {
+          this.#applySearchParamsToForm({
+            searchParams,
+            paramKey: key,
+            form: this.#currentQRForm,
+            formControlName: key,
+            paramValidatorFn: (value) => typeof value === "string",
+            shouldConvertToUpperCase:
+              key === SearchParamsParser.KEYS.ENCRYPTION,
+          });
+        }
+        break;
+      }
+      default: {
+        throw new Error(`Unknown form type ${formType}`);
+      }
+    }
+  }
+
+  #applySearchParamsToForm({
+    searchParams,
+    paramKey = "",
+    form,
+    formControlName = "",
+    paramValidatorFn = (value) => false,
+    shouldConvertToUpperCase = true,
+  }) {
+    let paramValue = searchParams.get(paramKey);
+    if (shouldConvertToUpperCase && paramValue) {
+      paramValue = paramValue.toUpperCase();
+    }
+    const isParamValueValid = paramValidatorFn(paramValue);
+    if (isParamValueValid) {
       this.#patchFormControl({
-        form: this.#settingsForm,
-        formControlName: SearchParamsParser.KEYS.FILE_TYPE,
-        value: qrFileTypeValue,
+        form: form,
+        formControlName: formControlName,
+        value: paramValue,
       });
     }
   }
@@ -598,15 +722,11 @@ class QRCodeApp {
     const formControl = form[formControlName];
     if (!formControl) {
       throw new Error(
-        `No such form control: ${formControlName} in ${form.getAttribute("name")}`,
+        `No such form control with name: ${formControlName} in form: ${form.getAttribute("name")}`,
       );
     }
     formControl.value = value;
     formControl.dispatchEvent(new Event(eventType, eventConfig));
-  }
-
-  #prefillQRForm() {
-    return;
   }
 
   #handleSelectChange(event) {
