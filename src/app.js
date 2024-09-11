@@ -509,7 +509,14 @@ class SearchParamsParser {
   }
 
   static parseURLSearchParams() {
-    return new URLSearchParams(new URL(window.location.href).search);
+    const searchParams = new URLSearchParams(
+      new URL(window.location.href).search,
+    );
+    const lowerCasedSearchParams = new URLSearchParams();
+    for (const [key, value] of searchParams) {
+      lowerCasedSearchParams.append(key.toLowerCase(), value);
+    }
+    return lowerCasedSearchParams;
   }
 }
 
