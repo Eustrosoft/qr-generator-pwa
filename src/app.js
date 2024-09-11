@@ -112,6 +112,10 @@ class FormControlBuilder {
 
   static get QR_FORM_TYPE_OPT_LIST() {
     return {
+      QXYZ: {
+        value: "QXYZ",
+        label: "QXYZ",
+      },
       TEXT: {
         value: "TEXT",
         label: "Text",
@@ -153,6 +157,52 @@ class FormControlBuilder {
 
   static get DATA_FORM_CONTROLS() {
     return {
+      QXYZ: [
+        {
+          tagName: "input",
+          label: "Code",
+          attributes: [
+            { name: "name", value: "q" },
+            { name: "type", value: "text" },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: "Password",
+          attributes: [
+            { name: "name", value: "p" },
+            { name: "type", value: "text" },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: "Document",
+          attributes: [
+            { name: "name", value: "d" },
+            { name: "type", value: "text" },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: "Site",
+          attributes: [
+            { name: "name", value: "site" },
+            { name: "type", value: "text" },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+      ],
       TEXT: [
         {
           tagName: "textarea",
@@ -451,6 +501,10 @@ class SearchParamsParser {
       SSID: "ssid",
       PASSWORD: "password",
       ENCRYPTION: "encryption",
+      Q: "q",
+      P: "p",
+      D: "d",
+      SITE: "site",
     });
   }
 
@@ -504,7 +558,7 @@ class QRCodeApp {
     this.#qrSettingsContainer.append(filledForm);
   }
 
-  #setupForm(formType = FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value) {
+  #setupForm(formType = FormControlBuilder.QR_FORM_TYPE_OPT_LIST.QXYZ.value) {
     this.#formContainer.replaceChildren();
 
     const form = this.#formBuilder.makeForm({
@@ -594,6 +648,24 @@ class QRCodeApp {
     }
 
     switch (formType) {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.QXYZ.value: {
+        for (const key of [
+          SearchParamsParser.KEYS.Q,
+          SearchParamsParser.KEYS.P,
+          SearchParamsParser.KEYS.D,
+          SearchParamsParser.KEYS.SITE,
+        ]) {
+          this.#applySearchParamsToForm({
+            searchParams,
+            paramKey: key,
+            form: this.#currentQRForm,
+            formControlName: key,
+            paramValidatorFn: (value) => typeof value === "string",
+            shouldConvertToUpperCase: false,
+          });
+        }
+        break;
+      }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value: {
         this.#applySearchParamsToForm({
           searchParams,
@@ -791,6 +863,26 @@ class QRCodeApp {
 
   #makeQRStringByType(qrFormType, data) {
     switch (qrFormType) {
+      case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.QXYZ.value: {
+        const q =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.QXYZ[0].attributes[0].value
+          ];
+        const p =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.QXYZ[1].attributes[0].value
+          ];
+        const d =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.QXYZ[2].attributes[0].value
+          ];
+        const site =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.QXYZ[3].attributes[0].value
+          ];
+        const searchParams = new URLSearchParams({ q, p, d });
+        return `${site ?? ""}?${searchParams.toString()}`;
+      }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.URL.value: {
         return data[
           FormControlBuilder.DATA_FORM_CONTROLS.URL[0].attributes[0].value
