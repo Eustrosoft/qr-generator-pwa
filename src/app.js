@@ -520,6 +520,48 @@ class SearchParamsParser {
   }
 }
 
+class LocalizationManager {
+  static get VALID_LANG_LIST() {
+    return ["ru-RU", "en-US"];
+  }
+
+  getBrowserLang() {
+    const browserLang = navigator.language || navigator.userLanguage;
+    if (browserLang !== undefined) {
+      let closestCode = undefined;
+      let maxMatches = 0;
+      for (const lang of LocalizationManager.VALID_LANG_LIST) {
+        const matches = lang.startsWith(browserLang)
+          ? lang.split("-").length
+          : 0;
+        if (matches > maxMatches) {
+          closestCode = lang;
+          maxMatches = matches;
+        }
+      }
+      return closestCode ?? "en-US";
+    } else {
+      return "en-US";
+    }
+  }
+
+  async loadLanguage(lang = this.getBrowserLang()) {
+    if (!LocalizationManager.VALID_LANG_LIST.includes(lang)) {
+      throw new Error(`Not supported language: ${lang}`);
+    }
+
+    const res = await fetch(`./locale/${lang}.json`).catch((error) =>
+      console.error("Error loading language file:", error),
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch lang");
+    }
+
+    return await res.json();
+  }
+}
+
 class QRCodeApp {
   #formBuilder;
   #qrSettingsContainer = document.getElementById("qr-settings-container");
@@ -1014,7 +1056,8 @@ class QRCodeApp {
 
 document.addEventListener("DOMContentLoaded", () => {
   const formBuilder = new FormControlBuilder();
-  new QRCodeApp(formBuilder);
+  const localizationManager = new LocalizationManager();
+  new QRCodeApp(formBuilder, localizationManager);
 
   // if ("serviceWorker" in navigator) {
   //   navigator.serviceWorker
