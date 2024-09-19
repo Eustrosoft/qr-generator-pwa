@@ -1,0 +1,62 @@
+{
+  "SETTINGS_FORM": {
+    "QR_TYPE_LABEL": "Тип QR кода",
+    "TYPE_NUMBER_LABEL": "Номер типа",
+    "ERROR_CORRECTION_LEVEL_LABEL": "Уровень коррекции ошибок",
+    "MODE_LABEL": "Режим",
+    "FILE_TYPE_LABEL": "Тип файла",
+    "CELL_SIZE_LABEL": "Размер ячейки",
+    "MARGIN_LABEL": "Отступ"
+  },
+  "QR_TYPE_OPTIONS": {
+    "QXYZ_LABEL": "QXYZ",
+    "TEXT_LABEL": "Текст",
+    "URL_LABEL": "URL",
+    "PHONE_LABEL": "Телефон",
+    "SMS_LABEL": "SMS",
+    "EMAIL_LABEL": "E-mail",
+    "CONTACT_LABEL": "Контакт",
+    "WIFI_LABEL": "WI-FI"
+  },
+  "TYPE_NUMBER_OPTIONS": {
+    "AUTO_DETECT_LABEL": "Автоопределение"
+  },
+  "QXYZ_FORM": {
+    "CODE_LABEL": "Код",
+    "PASSWORD_LABEL": "Пароль",
+    "DOCUMENT_LABEL": "Документ",
+    "SITE_LABEL": "Сайт"
+  },
+  "TEXT_FORM": {
+    "TEXT_LABEL": "Текст",
+    "TEXT_PLACEHOLDER": "Введите текст"
+  },
+  "URL_FORM": {
+    "URL_LABEL": "URL",
+    "URL_PLACEHOLDER": "Введите строку или URL"
+  },
+  "TELEPHONE_FORM": {
+    "TELEPHONE_LABEL": "Телефон",
+    "TELEPHONE_PLACEHOLDER": "Введите телефон"
+  },
+  "SMS_FORM": {
+    "SMS_LABEL": "SMS",
+    "SMS_PLACEHOLDER": "Введите текст SMS сообщения"
+  },
+  "EMAIL_FORM": {
+    "EMAIL_LABEL": "E-Mail",
+    "EMAIL_PLACEHOLDER": "Введите e-mail",
+    "SUBJECT_LABEL": "Тема",
+    "SUBJECT_PLACEHOLDER": "Тема письма",
+    "TEXT_LABEL": "Текст",
+    "TEXT_PLACEHOLDER": "Содержание письма"
+  },
+  "WIFI_FORM": {
+    "SSID_LABEL": "SSID",
+    "SSID_PLACEHOLDER": "SSID",
+    "PASSWORD_LABEL": "Пароль",
+    "PASSWORD_PLACEHOLDER": "Пароль",
+    "ENCRYPTION_LABEL": "Шифрование"
+  },
+  "GENERATE_BUTTON_LABEL": "Сгенерировать QR код"
+}

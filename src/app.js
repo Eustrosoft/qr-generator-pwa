@@ -11,16 +11,19 @@ class FormControlBuilder {
     return [
       {
         tagName: "select",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.QR_TYPE_LABEL")}: `,
         attributes: [{ name: "name", value: "type" }],
       },
       {
         tagName: "select",
-        label: "Select Type Number: ",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.TYPE_NUMBER_LABEL")}: `,
         attributes: [{ name: "name", value: "qrTypeNumber" }],
         options: [
           {
             value: "0",
-            label: "Auto Detect",
+            label: LocalizationManager.getTranslation(
+              "TYPE_NUMBER_OPTIONS.AUTO_DETECT_LABEL",
+            ),
           },
           ...Array.from({ length: 40 }, (_, i) => ({
             value: (i + 1).toString(),
@@ -30,7 +33,7 @@ class FormControlBuilder {
       },
       {
         tagName: "select",
-        label: "Select Error Correction Level: ",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.ERROR_CORRECTION_LEVEL_LABEL")}: `,
         attributes: [{ name: "name", value: "correctionLevel" }],
         options: [
           {
@@ -53,7 +56,7 @@ class FormControlBuilder {
       },
       {
         tagName: "select",
-        label: "Select Mode: ",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.MODE_LABEL")}: `,
         attributes: [{ name: "name", value: "qrMode" }],
         options: [
           {
@@ -76,7 +79,7 @@ class FormControlBuilder {
       },
       {
         tagName: "select",
-        label: "Select File Type: ",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.FILE_TYPE_LABEL")}: `,
         attributes: [{ name: "name", value: "fileType" }],
         options: [
           { value: "GIF", label: "gif" },
@@ -87,7 +90,7 @@ class FormControlBuilder {
       },
       {
         tagName: "input",
-        label: "Cell Size: ",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.CELL_SIZE_LABEL")}: `,
         attributes: [
           { name: "name", value: "qrCellSize" },
           { name: "type", value: "number" },
@@ -98,7 +101,7 @@ class FormControlBuilder {
       },
       {
         tagName: "input",
-        label: "Margin: ",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.MARGIN_LABEL")}: `,
         attributes: [
           { name: "name", value: "qrMargin" },
           { name: "type", value: "number" },
@@ -114,35 +117,41 @@ class FormControlBuilder {
     return {
       QXYZ: {
         value: "QXYZ",
-        label: "QXYZ",
+        label: LocalizationManager.getTranslation("QR_TYPE_OPTIONS.QXYZ_LABEL"),
       },
       TEXT: {
         value: "TEXT",
-        label: "Text",
+        label: LocalizationManager.getTranslation("QR_TYPE_OPTIONS.TEXT_LABEL"),
       },
       URL: {
         value: "URL",
-        label: "URL",
+        label: LocalizationManager.getTranslation("QR_TYPE_OPTIONS.URL_LABEL"),
       },
       PHONE: {
         value: "PHONE",
-        label: "Telephone",
+        label: LocalizationManager.getTranslation(
+          "QR_TYPE_OPTIONS.PHONE_LABEL",
+        ),
       },
       SMS: {
         value: "SMS",
-        label: "SMS",
+        label: LocalizationManager.getTranslation("QR_TYPE_OPTIONS.SMS_LABEL"),
       },
       EMAIL: {
         value: "EMAIL",
-        label: "E-mail",
+        label: LocalizationManager.getTranslation(
+          "QR_TYPE_OPTIONS.EMAIL_LABEL",
+        ),
       },
       CONTACT: {
         value: "CONTACT",
-        label: "Contact",
+        label: LocalizationManager.getTranslation(
+          "QR_TYPE_OPTIONS.CONTACT_LABEL",
+        ),
       },
       WIFI: {
         value: "WIFI",
-        label: "WI-FI",
+        label: LocalizationManager.getTranslation("QR_TYPE_OPTIONS.WIFI_LABEL"),
       },
     };
   }
@@ -160,7 +169,7 @@ class FormControlBuilder {
       QXYZ: [
         {
           tagName: "input",
-          label: "Code",
+          label: LocalizationManager.getTranslation("QXYZ_FORM.CODE_LABEL"),
           attributes: [
             { name: "name", value: "q" },
             { name: "type", value: "text" },
@@ -171,7 +180,7 @@ class FormControlBuilder {
         },
         {
           tagName: "input",
-          label: "Password",
+          label: LocalizationManager.getTranslation("QXYZ_FORM.PASSWORD_LABEL"),
           attributes: [
             { name: "name", value: "p" },
             { name: "type", value: "text" },
@@ -182,7 +191,7 @@ class FormControlBuilder {
         },
         {
           tagName: "input",
-          label: "Document",
+          label: LocalizationManager.getTranslation("QXYZ_FORM.DOCUMENT_LABEL"),
           attributes: [
             { name: "name", value: "d" },
             { name: "type", value: "text" },
@@ -193,7 +202,7 @@ class FormControlBuilder {
         },
         {
           tagName: "input",
-          label: "Site",
+          label: LocalizationManager.getTranslation("QXYZ_FORM.SITE_LABEL"),
           attributes: [
             { name: "name", value: "site" },
             { name: "type", value: "text" },
@@ -206,10 +215,15 @@ class FormControlBuilder {
       TEXT: [
         {
           tagName: "textarea",
-          label: "Text",
+          label: LocalizationManager.getTranslation("TEXT_FORM.TEXT_LABEL"),
           attributes: [
             { name: "name", value: "text" },
-            { name: "placeholder", value: "Enter text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "TEXT_FORM.TEXT_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -219,11 +233,16 @@ class FormControlBuilder {
       URL: [
         {
           tagName: "input",
-          label: "URL",
+          label: LocalizationManager.getTranslation("URL_FORM.URL_LABEL"),
           attributes: [
             { name: "name", value: "url" },
             { name: "type", value: "text" },
-            { name: "placeholder", value: "Enter a string or url" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "URL_FORM.URL_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -233,11 +252,18 @@ class FormControlBuilder {
       PHONE: [
         {
           tagName: "input",
-          label: "Telephone",
+          label: LocalizationManager.getTranslation(
+            "TELEPHONE_FORM.TELEPHONE_LABEL",
+          ),
           attributes: [
             { name: "name", value: "phone" },
             { name: "type", value: "tel" },
-            { name: "placeholder", value: "Enter phone" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "TELEPHONE_FORM.TELEPHONE_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -247,11 +273,18 @@ class FormControlBuilder {
       SMS: [
         {
           tagName: "input",
-          label: "Telephone",
+          label: LocalizationManager.getTranslation(
+            "TELEPHONE_FORM.TELEPHONE_LABEL",
+          ),
           attributes: [
             { name: "name", value: "phone" },
             { name: "type", value: "tel" },
-            { name: "placeholder", value: "Enter phone" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "TELEPHONE_FORM.TELEPHONE_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -259,10 +292,15 @@ class FormControlBuilder {
         },
         {
           tagName: "textarea",
-          label: "SMS",
+          label: LocalizationManager.getTranslation("SMS_FORM.SMS_LABEL"),
           attributes: [
             { name: "name", value: "text" },
-            { name: "placeholder", value: "Enter sms text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "SMS_FORM.SMS_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -272,11 +310,16 @@ class FormControlBuilder {
       EMAIL: [
         {
           tagName: "input",
-          label: "E-Mail",
+          label: LocalizationManager.getTranslation("EMAIL_FORM.EMAIL_LABEL"),
           attributes: [
             { name: "name", value: "email" },
             { name: "type", value: "email" },
-            { name: "placeholder", value: "Enter e-mail" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "EMAIL_FORM.EMAIL_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -284,11 +327,16 @@ class FormControlBuilder {
         },
         {
           tagName: "input",
-          label: "Subject",
+          label: LocalizationManager.getTranslation("EMAIL_FORM.SUBJECT_LABEL"),
           attributes: [
             { name: "name", value: "subject" },
             { name: "type", value: "text" },
-            { name: "placeholder", value: "Subject" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "EMAIL_FORM.SUBJECT_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -296,10 +344,15 @@ class FormControlBuilder {
         },
         {
           tagName: "textarea",
-          label: "Text",
+          label: LocalizationManager.getTranslation("EMAIL_FORM.TEXT_LABEL"),
           attributes: [
             { name: "name", value: "text" },
-            { name: "placeholder", value: "Body" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "EMAIL_FORM.TEXT_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -309,11 +362,16 @@ class FormControlBuilder {
       WIFI: [
         {
           tagName: "input",
-          label: "SSID",
+          label: LocalizationManager.getTranslation("WIFI_FORM.SSID_LABEL"),
           attributes: [
             { name: "name", value: "ssid" },
             { name: "type", value: "text" },
-            { name: "placeholder", value: "SSID" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "WIFI_FORM.SSID_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -321,11 +379,16 @@ class FormControlBuilder {
         },
         {
           tagName: "input",
-          label: "Password",
+          label: LocalizationManager.getTranslation("WIFI_FORM.PASSWORD_LABEL"),
           attributes: [
             { name: "name", value: "password" },
             { name: "type", value: "password" },
-            { name: "placeholder", value: "Password" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "WIFI_FORM.PASSWORD_PLACEHOLDER",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -333,11 +396,10 @@ class FormControlBuilder {
         },
         {
           tagName: "select",
-          label: "Encryption",
-          attributes: [
-            { name: "name", value: "encryption" },
-            { name: "placeholder", value: "Encryption" },
-          ],
+          label: LocalizationManager.getTranslation(
+            "WIFI_FORM.ENCRYPTION_LABEL",
+          ),
+          attributes: [{ name: "name", value: "encryption" }],
           options: [
             {
               value: "WPA",
@@ -361,7 +423,7 @@ class FormControlBuilder {
   }
 
   makeSelect({
-    labelText = "Select QR Code Type: ",
+    labelText = "",
     selectAttributes = [],
     options = FormControlBuilder.QR_FORM_TYPE_OPT_LIST,
     styles = {},
@@ -413,7 +475,7 @@ class FormControlBuilder {
     buttonId = FormControlBuilder.GENERATE_BUTTON_ID,
     type = "submit",
     form = FormControlBuilder.DATA_FORM_ID,
-    buttonText = "Generate QR Code",
+    buttonText = "",
   } = {}) {
     const button = document.createElement("button");
     button.setAttribute("id", buttonId);
@@ -521,17 +583,21 @@ class SearchParamsParser {
 }
 
 class LocalizationManager {
-  static get VALID_LANG_LIST() {
+  #currentBrowserLanguage = navigator.language || navigator.userLanguage;
+  #currentAppLanguage = LocalizationManager.SUPPORTED_LANG_LIST[0];
+
+  static TRANSLATIONS = {};
+
+  static get SUPPORTED_LANG_LIST() {
     return ["ru-RU", "en-US"];
   }
 
   getBrowserLang() {
-    const browserLang = navigator.language || navigator.userLanguage;
-    if (browserLang !== undefined) {
+    if (this.#currentBrowserLanguage !== undefined) {
       let closestCode = undefined;
       let maxMatches = 0;
-      for (const lang of LocalizationManager.VALID_LANG_LIST) {
-        const matches = lang.startsWith(browserLang)
+      for (const lang of LocalizationManager.SUPPORTED_LANG_LIST) {
+        const matches = lang.startsWith(this.#currentBrowserLanguage)
           ? lang.split("-").length
           : 0;
         if (matches > maxMatches) {
@@ -545,11 +611,17 @@ class LocalizationManager {
     }
   }
 
-  async loadLanguage(lang = this.getBrowserLang()) {
-    if (!LocalizationManager.VALID_LANG_LIST.includes(lang)) {
-      throw new Error(`Not supported language: ${lang}`);
-    }
+  static getTranslation(jsonPath = "", fallback = "Unknown text") {
+    return jsonPath
+      .split(".")
+      .reduce(
+        (obj, i) => (obj && obj[i] ? obj[i] : fallback),
+        this.TRANSLATIONS,
+      );
+  }
 
+  async loadLanguage(lang = this.getBrowserLang()) {
+    this.#currentAppLanguage = lang;
     const res = await fetch(`./locale/${lang}.json`).catch((error) =>
       console.error("Error loading language file:", error),
     );
@@ -558,7 +630,9 @@ class LocalizationManager {
       throw new Error("Failed to fetch lang");
     }
 
-    return await res.json();
+    LocalizationManager.TRANSLATIONS = await res.json();
+
+    return res.ok;
   }
 }
 
@@ -632,7 +706,9 @@ class QRCodeApp {
   }
 
   #setupGenerateButton() {
-    const buttonElement = this.#formBuilder.makeButton();
+    const buttonElement = this.#formBuilder.makeButton({
+      buttonText: LocalizationManager.getTranslation("GENERATE_BUTTON_LABEL"),
+    });
     this.#generateButtonContainer.appendChild(buttonElement);
   }
 
@@ -1054,22 +1130,25 @@ class QRCodeApp {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const formBuilder = new FormControlBuilder();
+const start = async () => {
   const localizationManager = new LocalizationManager();
-  new QRCodeApp(formBuilder, localizationManager);
+  await localizationManager.loadLanguage();
+  const formBuilder = new FormControlBuilder();
+  new QRCodeApp(formBuilder);
+};
 
-  // if ("serviceWorker" in navigator) {
-  //   navigator.serviceWorker
-  //     .register("./service-worker.js")
-  //     .then((registration) => {
-  //       console.log(
-  //         "ServiceWorker registration successful with scope: ",
-  //         registration.scope,
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.log("ServiceWorker registration failed: ", error);
-  //     });
-  // }
-});
+await start();
+
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//     .register("./service-worker.js")
+//     .then((registration) => {
+//       console.log(
+//         "ServiceWorker registration successful with scope: ",
+//         registration.scope,
+//       );
+//     })
+//     .catch((error) => {
+//       console.log("ServiceWorker registration failed: ", error);
+//     });
+// }

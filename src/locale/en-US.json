@@ -1,0 +1,62 @@
+{
+  "SETTINGS_FORM": {
+    "QR_TYPE_LABEL": "QR Code Type",
+    "TYPE_NUMBER_LABEL": "Type Number",
+    "ERROR_CORRECTION_LEVEL_LABEL": "Error Correction Level",
+    "MODE_LABEL": "Mode",
+    "FILE_TYPE_LABEL": "File Type",
+    "CELL_SIZE_LABEL": "Cell Size",
+    "MARGIN_LABEL": "Margin"
+  },
+  "QR_TYPE_OPTIONS": {
+    "QXYZ_LABEL": "QXYZ",
+    "TEXT_LABEL": "Text",
+    "URL_LABEL": "URL",
+    "PHONE_LABEL": "Telephone",
+    "SMS_LABEL": "SMS",
+    "EMAIL_LABEL": "E-mail",
+    "CONTACT_LABEL": "Contact",
+    "WIFI_LABEL": "WI-FI"
+  },
+  "TYPE_NUMBER_OPTIONS": {
+    "AUTO_DETECT_LABEL": "Auto Detect"
+  },
+  "QXYZ_FORM": {
+    "CODE_LABEL": "Code",
+    "PASSWORD_LABEL": "Password",
+    "DOCUMENT_LABEL": "Document",
+    "SITE_LABEL": "Site"
+  },
+  "TEXT_FORM": {
+    "TEXT_LABEL": "Text",
+    "TEXT_PLACEHOLDER": "Enter text"
+  },
+  "URL_FORM": {
+    "URL_LABEL": "URL",
+    "URL_PLACEHOLDER": "Enter a string or URL"
+  },
+  "TELEPHONE_FORM": {
+    "TELEPHONE_LABEL": "Telephone",
+    "TELEPHONE_PLACEHOLDER": "Enter phone"
+  },
+  "SMS_FORM": {
+    "SMS_LABEL": "SMS",
+    "SMS_PLACEHOLDER": "Enter sms text"
+  },
+  "EMAIL_FORM": {
+    "EMAIL_LABEL": "E-Mail",
+    "EMAIL_PLACEHOLDER": "Enter email",
+    "SUBJECT_LABEL": "Subject",
+    "SUBJECT_PLACEHOLDER": "Subject",
+    "TEXT_LABEL": "Text",
+    "TEXT_PLACEHOLDER": "Body"
+  },
+  "WIFI_FORM": {
+    "SSID_LABEL": "SSID",
+    "SSID_PLACEHOLDER": "SSID",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER": "Password",
+    "ENCRYPTION_LABEL": "Encryption"
+  },
+  "GENERATE_BUTTON_LABEL": "Generate QR Code"
+}
