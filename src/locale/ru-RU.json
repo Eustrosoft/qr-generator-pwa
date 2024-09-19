@@ -56,7 +56,8 @@
     "SSID_PLACEHOLDER": "SSID",
     "PASSWORD_LABEL": "Пароль",
     "PASSWORD_PLACEHOLDER": "Пароль",
-    "ENCRYPTION_LABEL": "Шифрование"
+    "ENCRYPTION_LABEL": "Шифрование",
+    "OPEN_NETWORK_LABEL": "Открытая сеть"
   },
   "GENERATE_BUTTON_LABEL": "Сгенерировать QR код"
 }

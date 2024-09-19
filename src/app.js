@@ -409,6 +409,12 @@ class FormControlBuilder {
               value: "WEP",
               label: "WEP",
             },
+            {
+              value: "nopass",
+              label: LocalizationManager.getTranslation(
+                "WIFI_FORM.OPEN_NETWORK_LABEL",
+              ),
+            },
           ],
           styles: {
             display: "block",
@@ -1067,7 +1073,7 @@ class QRCodeApp {
           data[
             FormControlBuilder.DATA_FORM_CONTROLS.WIFI[2].attributes[0].value
           ];
-        return `WIFI:S:${ssid ?? ""}T:${encryption ?? ""};P:${password ?? ""};;`;
+        return `WIFI:S:${ssid ?? ""};T:${encryption ?? ""};P:${password ?? ""};;`;
       }
       default:
         throw new Error(`Unknown type ${qrFormType}`);

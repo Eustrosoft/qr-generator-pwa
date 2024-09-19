@@ -56,7 +56,8 @@
     "SSID_PLACEHOLDER": "SSID",
     "PASSWORD_LABEL": "Password",
     "PASSWORD_PLACEHOLDER": "Password",
-    "ENCRYPTION_LABEL": "Encryption"
+    "ENCRYPTION_LABEL": "Encryption",
+    "OPEN_NETWORK_LABEL": "Open Network"
   },
   "GENERATE_BUTTON_LABEL": "Generate QR Code"
 }
