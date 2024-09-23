@@ -107,7 +107,7 @@ class FormControlBuilder {
           { name: "type", value: "number" },
           { name: "min", value: 0 },
           { name: "max", value: 50 },
-          { name: "value", value: 0 },
+          { name: "value", value: 10 },
         ],
       },
     ];
