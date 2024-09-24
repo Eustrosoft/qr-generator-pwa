@@ -59,5 +59,6 @@
     "ENCRYPTION_LABEL": "Encryption",
     "OPEN_NETWORK_LABEL": "Open Network"
   },
-  "GENERATE_BUTTON_LABEL": "Generate QR Code"
+  "GENERATE_BUTTON_LABEL": "Generate QR Code",
+  "QR_CODE_LIB_ERROR": "Unknown error occurred, please, try again"
 }

@@ -555,25 +555,27 @@ class FormControlBuilder {
   }
 }
 
-class SearchParamsParser {
+class URLManager {
+  #keys = Object.freeze({
+    TYPE: "type",
+    CORRECTION_LEVEL: "correctionLevel",
+    FILE_TYPE: "fileType",
+    TEXT: "text",
+    URL: "url",
+    PHONE: "phone",
+    EMAIL: "email",
+    SUBJECT: "subject",
+    SSID: "ssid",
+    PASSWORD: "password",
+    ENCRYPTION: "encryption",
+    Q: "q",
+    P: "p",
+    D: "d",
+    SITE: "site",
+  });
+
   static get KEYS() {
-    return Object.freeze({
-      TYPE: "type",
-      CORRECTION_LEVEL: "correctionLevel",
-      FILE_TYPE: "fileType",
-      TEXT: "text",
-      URL: "url",
-      PHONE: "phone",
-      EMAIL: "email",
-      SUBJECT: "subject",
-      SSID: "ssid",
-      PASSWORD: "password",
-      ENCRYPTION: "encryption",
-      Q: "q",
-      P: "p",
-      D: "d",
-      SITE: "site",
-    });
+    return this.#keys;
   }
 
   static parseURLSearchParams() {
@@ -585,6 +587,56 @@ class SearchParamsParser {
       lowerCasedSearchParams.append(key.toLowerCase(), value);
     }
     return lowerCasedSearchParams;
+  }
+
+  static isUrlParsable(url = "") {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  static makeUrl({ initUrl, initSearchParams }) {
+    const url = new URL(initUrl);
+    url.search = new URLSearchParams(initSearchParams).toString();
+    return url.toString();
+  }
+
+  static normalizeUrl({
+    url = "",
+    clearCredentials = true,
+    clearPort = true,
+    clearSearchParams = true,
+    clearHash = true,
+  }) {
+    try {
+      if (!url.startsWith("https://") && !url.startsWith("http://")) {
+        url = `https://${url}`;
+      }
+
+      const normalizedUrl = new URL(url);
+      if (clearCredentials) {
+        normalizedUrl.username = "";
+        normalizedUrl.password = "";
+      }
+      if (clearPort) {
+        normalizedUrl.port = "";
+      }
+      if (clearSearchParams) {
+        normalizedUrl.searchParams.forEach((_, key) => {
+          normalizedUrl.searchParams.delete(key);
+        });
+      }
+      if (clearHash) {
+        normalizedUrl.hash = "";
+      }
+
+      return normalizedUrl.toString();
+    } catch (e) {
+      return "";
+    }
   }
 }
 
@@ -727,25 +779,25 @@ class QRCodeApp {
   }
 
   #prefillSettingsForm() {
-    const searchParams = SearchParamsParser.parseURLSearchParams();
+    const searchParams = URLManager.parseURLSearchParams();
     if (!searchParams.size) {
       return;
     }
 
     this.#applySearchParamsToForm({
       searchParams,
-      paramKey: SearchParamsParser.KEYS.TYPE,
+      paramKey: URLManager.KEYS.TYPE,
       form: this.#settingsForm,
-      formControlName: SearchParamsParser.KEYS.TYPE,
+      formControlName: URLManager.KEYS.TYPE,
       paramValidatorFn: (value) =>
         Object.keys(FormControlBuilder.QR_FORM_TYPE_OPT_LIST).includes(value),
     });
 
     this.#applySearchParamsToForm({
       searchParams,
-      paramKey: SearchParamsParser.KEYS.CORRECTION_LEVEL,
+      paramKey: URLManager.KEYS.CORRECTION_LEVEL,
       form: this.#settingsForm,
-      formControlName: SearchParamsParser.KEYS.CORRECTION_LEVEL,
+      formControlName: URLManager.KEYS.CORRECTION_LEVEL,
       paramValidatorFn: (value) =>
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[2].options
           .map((opt) => opt.value)
@@ -754,9 +806,9 @@ class QRCodeApp {
 
     this.#applySearchParamsToForm({
       searchParams,
-      paramKey: SearchParamsParser.KEYS.FILE_TYPE,
+      paramKey: URLManager.KEYS.FILE_TYPE,
       form: this.#settingsForm,
-      formControlName: SearchParamsParser.KEYS.FILE_TYPE,
+      formControlName: URLManager.KEYS.FILE_TYPE,
       paramValidatorFn: (value) =>
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options
           .map((opt) => opt.value)
@@ -765,7 +817,7 @@ class QRCodeApp {
   }
 
   #prefillQRForm() {
-    const searchParams = SearchParamsParser.parseURLSearchParams();
+    const searchParams = URLManager.parseURLSearchParams();
     if (!searchParams.size) {
       return;
     }
@@ -781,10 +833,10 @@ class QRCodeApp {
     switch (formType) {
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.QXYZ.value: {
         for (const key of [
-          SearchParamsParser.KEYS.Q,
-          SearchParamsParser.KEYS.P,
-          SearchParamsParser.KEYS.D,
-          SearchParamsParser.KEYS.SITE,
+          URLManager.KEYS.Q,
+          URLManager.KEYS.P,
+          URLManager.KEYS.D,
+          URLManager.KEYS.SITE,
         ]) {
           this.#applySearchParamsToForm({
             searchParams,
@@ -800,9 +852,9 @@ class QRCodeApp {
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.TEXT.value: {
         this.#applySearchParamsToForm({
           searchParams,
-          paramKey: SearchParamsParser.KEYS.TEXT,
+          paramKey: URLManager.KEYS.TEXT,
           form: this.#currentQRForm,
-          formControlName: SearchParamsParser.KEYS.TEXT,
+          formControlName: URLManager.KEYS.TEXT,
           paramValidatorFn: (value) => typeof value === "string",
           shouldConvertToUpperCase: false,
         });
@@ -811,9 +863,9 @@ class QRCodeApp {
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.URL.value: {
         this.#applySearchParamsToForm({
           searchParams,
-          paramKey: SearchParamsParser.KEYS.URL,
+          paramKey: URLManager.KEYS.URL,
           form: this.#currentQRForm,
-          formControlName: SearchParamsParser.KEYS.URL,
+          formControlName: URLManager.KEYS.URL,
           paramValidatorFn: (value) => typeof value === "string",
           shouldConvertToUpperCase: false,
         });
@@ -822,19 +874,16 @@ class QRCodeApp {
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.PHONE.value: {
         this.#applySearchParamsToForm({
           searchParams,
-          paramKey: SearchParamsParser.KEYS.PHONE,
+          paramKey: URLManager.KEYS.PHONE,
           form: this.#currentQRForm,
-          formControlName: SearchParamsParser.KEYS.PHONE,
+          formControlName: URLManager.KEYS.PHONE,
           paramValidatorFn: (value) => typeof value === "string",
           shouldConvertToUpperCase: false,
         });
         break;
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.SMS.value: {
-        for (const key of [
-          SearchParamsParser.KEYS.PHONE,
-          SearchParamsParser.KEYS.TEXT,
-        ]) {
+        for (const key of [URLManager.KEYS.PHONE, URLManager.KEYS.TEXT]) {
           this.#applySearchParamsToForm({
             searchParams,
             paramKey: key,
@@ -848,9 +897,9 @@ class QRCodeApp {
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.EMAIL.value: {
         for (const key of [
-          SearchParamsParser.KEYS.EMAIL,
-          SearchParamsParser.KEYS.SUBJECT,
-          SearchParamsParser.KEYS.TEXT,
+          URLManager.KEYS.EMAIL,
+          URLManager.KEYS.SUBJECT,
+          URLManager.KEYS.TEXT,
         ]) {
           this.#applySearchParamsToForm({
             searchParams,
@@ -868,9 +917,9 @@ class QRCodeApp {
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.WIFI.value: {
         for (const key of [
-          SearchParamsParser.KEYS.SSID,
-          SearchParamsParser.KEYS.PASSWORD,
-          SearchParamsParser.KEYS.ENCRYPTION,
+          URLManager.KEYS.SSID,
+          URLManager.KEYS.PASSWORD,
+          URLManager.KEYS.ENCRYPTION,
         ]) {
           this.#applySearchParamsToForm({
             searchParams,
@@ -878,8 +927,7 @@ class QRCodeApp {
             form: this.#currentQRForm,
             formControlName: key,
             paramValidatorFn: (value) => typeof value === "string",
-            shouldConvertToUpperCase:
-              key === SearchParamsParser.KEYS.ENCRYPTION,
+            shouldConvertToUpperCase: key === URLManager.KEYS.ENCRYPTION,
           });
         }
         break;
@@ -981,15 +1029,19 @@ class QRCodeApp {
     const qrFormData = new FormData(form);
     const qrData = Object.fromEntries(qrFormData);
     const qrStr = this.#makeQRStringByType(qrFormType, qrData);
-    this.#generateQRCode({
-      data: qrStr,
-      typeNumber,
-      errorCorrectionLevel,
-      mode,
-      representation,
-      cellSize,
-      margin,
-    });
+    try {
+      this.#generateQRCode({
+        data: qrStr,
+        typeNumber,
+        errorCorrectionLevel,
+        mode,
+        representation,
+        cellSize,
+        margin,
+      });
+    } catch (e) {
+      alert(LocalizationManager.getTranslation("QR_CODE_LIB_ERROR"));
+    }
   }
 
   #makeQRStringByType(qrFormType, data) {
@@ -1011,8 +1063,22 @@ class QRCodeApp {
           data[
             FormControlBuilder.DATA_FORM_CONTROLS.QXYZ[3].attributes[0].value
           ];
-        const searchParams = new URLSearchParams({ q, p, d });
-        return `${site ?? ""}?${searchParams.toString()}`;
+        const defaultSite = "https://qr.qxyz.ru";
+        let normalizedSite = URLManager.normalizeUrl({
+          url: site,
+        });
+        if (!site.length && !normalizedSite) {
+          normalizedSite = defaultSite;
+        }
+        const searchParamsArray = [
+          ["q", q],
+          ["p", p],
+          ["d", d],
+        ].filter(([_, value]) => value.length > 0);
+        return URLManager.makeUrl({
+          initUrl: normalizedSite,
+          initSearchParams: searchParamsArray,
+        });
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.URL.value: {
         return data[

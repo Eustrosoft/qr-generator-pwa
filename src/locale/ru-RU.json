@@ -59,5 +59,6 @@
     "ENCRYPTION_LABEL": "Шифрование",
     "OPEN_NETWORK_LABEL": "Открытая сеть"
   },
-  "GENERATE_BUTTON_LABEL": "Сгенерировать QR код"
+  "GENERATE_BUTTON_LABEL": "Сгенерировать QR код",
+  "QR_CODE_LIB_ERROR": "При генерации произошла неизвестная ошибка, пожалуйста, попробуйте ещё раз"
 }
