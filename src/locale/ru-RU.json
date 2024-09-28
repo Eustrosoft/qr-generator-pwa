@@ -35,9 +35,9 @@
     "URL_LABEL": "URL",
     "URL_PLACEHOLDER": "Введите строку или URL"
   },
-  "TELEPHONE_FORM": {
-    "TELEPHONE_LABEL": "Телефон",
-    "TELEPHONE_PLACEHOLDER": "Введите телефон"
+  "PHONE_FORM": {
+    "PHONE_LABEL": "Телефон",
+    "PHONE_PLACEHOLDER": "Введите телефон"
   },
   "SMS_FORM": {
     "SMS_LABEL": "SMS",
@@ -50,6 +50,34 @@
     "SUBJECT_PLACEHOLDER": "Тема письма",
     "TEXT_LABEL": "Текст",
     "TEXT_PLACEHOLDER": "Содержание письма"
+  },
+  "CONTACT_FORM": {
+    "FIRST_NAME_LABEL": "Имя",
+    "FIRST_NAME_PLACEHOLDER": "Введите имя",
+    "LAST_NAME_LABEL": "Фамилия",
+    "LAST_NAME_PLACEHOLDER": "Введите фамилию",
+    "ORGANIZATION_LABEL": "Организация",
+    "ORGANIZATION_PLACEHOLDER": "Введите наименование организации",
+    "TITLE_LABEL": "Должность",
+    "TITLE_PLACEHOLDER": "Введите наименование должности",
+    "PHONE_LABEL": "Рабочий телефон",
+    "PHONE_PLACEHOLDER": "Введите номер рабочего телефона",
+    "MOBILE_PHONE_LABEL": "Мобильный телефон",
+    "MOBILE_PHONE_PLACEHOLDER": "Введите номер мобильного телефона",
+    "FAX_LABEL": "Факс",
+    "FAX_PLACEHOLDER": "Введите номер факса",
+    "COUNTRY_LABEL": "Страна",
+    "COUNTRY_PLACEHOLDER": "Введите страну",
+    "REGION_LABEL": "Регион",
+    "REGION_PLACEHOLDER": "Введите регион",
+    "CITY_LABEL": "Город",
+    "CITY_PLACEHOLDER": "Введите город",
+    "STREET_LABEL": "Улица",
+    "STREET_PLACEHOLDER": "Введите улицу",
+    "POSTCODE_LABEL": "Почтовый индекс",
+    "POSTCODE_PLACEHOLDER": "Введите почтовый индекс",
+    "URL_LABEL": "URL",
+    "URL_PLACEHOLDER": "Введите URL"
   },
   "WIFI_FORM": {
     "SSID_LABEL": "SSID",

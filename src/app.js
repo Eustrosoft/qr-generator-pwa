@@ -252,16 +252,14 @@ class FormControlBuilder {
       PHONE: [
         {
           tagName: "input",
-          label: LocalizationManager.getTranslation(
-            "TELEPHONE_FORM.TELEPHONE_LABEL",
-          ),
+          label: LocalizationManager.getTranslation("PHONE_FORM.PHONE_LABEL"),
           attributes: [
             { name: "name", value: "phone" },
             { name: "type", value: "tel" },
             {
               name: "placeholder",
               value: LocalizationManager.getTranslation(
-                "TELEPHONE_FORM.TELEPHONE_PLACEHOLDER",
+                "PHONE_FORM.PHONE_PLACEHOLDER",
               ),
             },
           ],
@@ -273,16 +271,14 @@ class FormControlBuilder {
       SMS: [
         {
           tagName: "input",
-          label: LocalizationManager.getTranslation(
-            "TELEPHONE_FORM.TELEPHONE_LABEL",
-          ),
+          label: LocalizationManager.getTranslation("PHONE_FORM.PHONE_LABEL"),
           attributes: [
             { name: "name", value: "phone" },
             { name: "type", value: "tel" },
             {
               name: "placeholder",
               value: LocalizationManager.getTranslation(
-                "TELEPHONE_FORM.TELEPHONE_PLACEHOLDER",
+                "PHONE_FORM.PHONE_PLACEHOLDER",
               ),
             },
           ],
@@ -351,6 +347,262 @@ class FormControlBuilder {
               name: "placeholder",
               value: LocalizationManager.getTranslation(
                 "EMAIL_FORM.TEXT_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+      ],
+      CONTACT: [
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.FIRST_NAME_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "firstName" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.FIRST_NAME_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.LAST_NAME_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "lastName" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.LAST_NAME_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.ORGANIZATION_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "organization" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.ORGANIZATION_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation("CONTACT_FORM.TITLE_LABEL"),
+          attributes: [
+            { name: "name", value: "title" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.TITLE_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation("EMAIL_FORM.EMAIL_LABEL"),
+          attributes: [
+            { name: "name", value: "email" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "EMAIL_FORM.EMAIL_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation("CONTACT_FORM.PHONE_LABEL"),
+          attributes: [
+            { name: "name", value: "phone" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.PHONE_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.MOBILE_PHONE_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "mobilePhone" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.MOBILE_PHONE_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation("CONTACT_FORM.FAX_LABEL"),
+          attributes: [
+            { name: "name", value: "fax" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.FAX_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.COUNTRY_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "country" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.COUNTRY_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.REGION_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "region" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.REGION_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation("CONTACT_FORM.CITY_LABEL"),
+          attributes: [
+            { name: "name", value: "city" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.CITY_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.STREET_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "street" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.STREET_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation(
+            "CONTACT_FORM.POSTCODE_LABEL",
+          ),
+          attributes: [
+            { name: "name", value: "postcode" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.POSTCODE_PLACEHOLDER",
+              ),
+            },
+          ],
+          styles: {
+            display: "block",
+          },
+        },
+        {
+          tagName: "input",
+          label: LocalizationManager.getTranslation("CONTACT_FORM.URL_LABEL"),
+          attributes: [
+            { name: "name", value: "url" },
+            { name: "type", value: "text" },
+            {
+              name: "placeholder",
+              value: LocalizationManager.getTranslation(
+                "CONTACT_FORM.URL_PLACEHOLDER",
               ),
             },
           ],
@@ -556,7 +808,7 @@ class FormControlBuilder {
 }
 
 class URLManager {
-  #keys = Object.freeze({
+  static KEYS = Object.freeze({
     TYPE: "type",
     CORRECTION_LEVEL: "correctionLevel",
     FILE_TYPE: "fileType",
@@ -572,21 +824,21 @@ class URLManager {
     P: "p",
     D: "d",
     SITE: "site",
+    FIRST_NAME: "firstName",
+    LAST_NAME: "lastName",
+    ORGANIZATION: "organization",
+    TITLE: "title",
+    MOBILE_PHONE: "mobilePhone",
+    FAX: "fax",
+    COUNTRY: "country",
+    REGION: "region",
+    CITY: "city",
+    STREET: "street",
+    POSTCODE: "postcode",
   });
 
-  static get KEYS() {
-    return this.#keys;
-  }
-
   static parseURLSearchParams() {
-    const searchParams = new URLSearchParams(
-      new URL(window.location.href).search,
-    );
-    const lowerCasedSearchParams = new URLSearchParams();
-    for (const [key, value] of searchParams) {
-      lowerCasedSearchParams.append(key.toLowerCase(), value);
-    }
-    return lowerCasedSearchParams;
+    return new URLSearchParams(new URL(window.location.href).search);
   }
 
   static isUrlParsable(url = "") {
@@ -637,6 +889,16 @@ class URLManager {
     } catch (e) {
       return "";
     }
+  }
+
+  static updateUrlWithParams(paramsObj = {}) {
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(paramsObj)) {
+      params.append(key, value);
+    }
+    const currentUrl = new URL(window.location.href);
+    currentUrl.search = params.toString();
+    window.history.replaceState({}, "", currentUrl);
   }
 }
 
@@ -913,7 +1175,32 @@ class QRCodeApp {
         break;
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.CONTACT.value: {
-        throw new Error(`Not implemented`);
+        for (const key of [
+          URLManager.KEYS.FIRST_NAME,
+          URLManager.KEYS.LAST_NAME,
+          URLManager.KEYS.ORGANIZATION,
+          URLManager.KEYS.TITLE,
+          URLManager.KEYS.EMAIL,
+          URLManager.KEYS.PHONE,
+          URLManager.KEYS.MOBILE_PHONE,
+          URLManager.KEYS.FAX,
+          URLManager.KEYS.COUNTRY,
+          URLManager.KEYS.REGION,
+          URLManager.KEYS.CITY,
+          URLManager.KEYS.STREET,
+          URLManager.KEYS.POSTCODE,
+          URLManager.KEYS.URL,
+        ]) {
+          this.#applySearchParamsToForm({
+            searchParams,
+            paramKey: key,
+            form: this.#currentQRForm,
+            formControlName: key,
+            paramValidatorFn: (value) => typeof value === "string",
+            shouldConvertToUpperCase: false,
+          });
+        }
+        break;
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.WIFI.value: {
         for (const key of [
@@ -1014,7 +1301,7 @@ class QRCodeApp {
       qrSettingsData[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[3].attributes[0].value
       ];
-    const representation =
+    const fileType =
       qrSettingsData[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].attributes[0].value
       ];
@@ -1029,17 +1316,29 @@ class QRCodeApp {
     const qrFormData = new FormData(form);
     const qrData = Object.fromEntries(qrFormData);
     const qrStr = this.#makeQRStringByType(qrFormType, qrData);
+    console.log(qrStr);
     try {
       this.#generateQRCode({
         data: qrStr,
         typeNumber,
         errorCorrectionLevel,
         mode,
-        representation,
+        representation: fileType,
         cellSize,
         margin,
       });
+      const urlPatchObj = {
+        [FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value]:
+          qrFormType,
+        [FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[2].attributes[0].value]:
+          errorCorrectionLevel,
+        [FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].attributes[0].value]:
+          fileType,
+        ...qrData,
+      };
+      URLManager.updateUrlWithParams(urlPatchObj);
     } catch (e) {
+      console.error(e);
       alert(LocalizationManager.getTranslation("QR_CODE_LIB_ERROR"));
     }
   }
@@ -1124,7 +1423,86 @@ class QRCodeApp {
         return `mailto:${email ?? ""}?subject=${subject ?? ""}&body=${body ?? ""}`;
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.CONTACT.value: {
-        throw new Error("Not implemented");
+        const firstName =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[0].attributes[0].value
+          ];
+        const lastName =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[1].attributes[0].value
+          ];
+        const organization =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[2].attributes[0].value
+          ];
+        const title =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[3].attributes[0].value
+          ];
+        const email =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[4].attributes[0].value
+          ];
+        const phone =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[5].attributes[0].value
+          ];
+        const mobilePhone =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[6].attributes[0].value
+          ];
+        const fax =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[7].attributes[0].value
+          ];
+        const country =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[8].attributes[0].value
+          ];
+        const region =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[9].attributes[0].value
+          ];
+        const city =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[10].attributes[0]
+              .value
+          ];
+        const street =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[11].attributes[0]
+              .value
+          ];
+        const postcode =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[12].attributes[0]
+              .value
+          ];
+        const url =
+          data[
+            FormControlBuilder.DATA_FORM_CONTROLS.CONTACT[13].attributes[0]
+              .value
+          ];
+        const vCardString = `
+          BEGIN:VCARD\n
+          VERSION:3.0\n
+          N:${lastName ?? ""};${firstName ?? ""}\n
+          FN:${firstName ?? ""} ${lastName ?? ""}\n
+          TITLE:${title ?? ""}\n
+          ORG:${organization ?? ""}\n
+          URL:${url ?? ""}\n
+          EMAIL;TYPE=INTERNET:${email ?? ""}\n
+          TEL;TYPE=voice,home,pref:${phone ?? ""}\n
+          TEL;TYPE=voice,cell,pref:${mobilePhone ?? ""}\n
+          TEL;TYPE=fax,home,pref:${fax ?? ""}\n
+          ADR:;;${street ?? ""};${city ?? ""};${region ?? ""};${postcode ?? ""};${country ?? ""}\n
+          END:VCARD
+        `;
+        return vCardString
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0)
+          .join("\n");
       }
       case FormControlBuilder.QR_FORM_TYPE_OPT_LIST.WIFI.value: {
         const ssid =
@@ -1151,9 +1529,9 @@ class QRCodeApp {
     typeNumber = 0,
     errorCorrectionLevel = "M",
     mode = "Byte",
-    representation = "gif",
-    cellSize = 2,
-    margin = 4,
+    fileType = "gif",
+    cellSize = 10,
+    margin = 10,
   }) {
     qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
     const qr = qrcode(typeNumber, errorCorrectionLevel);
@@ -1161,7 +1539,7 @@ class QRCodeApp {
     qr.make();
     this.#qrCodeContainer.replaceChildren();
     this.#qrCodeContainer.style.cssText = "";
-    switch (representation) {
+    switch (fileType.toUpperCase()) {
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[0].value: {
         this.#qrCodeContainer.innerHTML = qr.createImgTag(cellSize, margin);
         break;
@@ -1197,7 +1575,7 @@ class QRCodeApp {
         break;
       }
       default:
-        throw new Error(`Unsupported type of representation ${representation}`);
+        throw new Error(`Unsupported file type: ${fileType}`);
     }
   }
 }

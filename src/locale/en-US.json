@@ -12,7 +12,7 @@
     "QXYZ_LABEL": "QXYZ",
     "TEXT_LABEL": "Text",
     "URL_LABEL": "URL",
-    "PHONE_LABEL": "Telephone",
+    "PHONE_LABEL": "Phone",
     "SMS_LABEL": "SMS",
     "EMAIL_LABEL": "E-mail",
     "CONTACT_LABEL": "Contact",
@@ -35,9 +35,9 @@
     "URL_LABEL": "URL",
     "URL_PLACEHOLDER": "Enter a string or URL"
   },
-  "TELEPHONE_FORM": {
-    "TELEPHONE_LABEL": "Telephone",
-    "TELEPHONE_PLACEHOLDER": "Enter phone"
+  "PHONE_FORM": {
+    "PHONE_LABEL": "Telephone",
+    "PHONE_PLACEHOLDER": "Enter phone"
   },
   "SMS_FORM": {
     "SMS_LABEL": "SMS",
@@ -50,6 +50,34 @@
     "SUBJECT_PLACEHOLDER": "Subject",
     "TEXT_LABEL": "Text",
     "TEXT_PLACEHOLDER": "Body"
+  },
+  "CONTACT_FORM": {
+    "FIRST_NAME_LABEL": "First name",
+    "FIRST_NAME_PLACEHOLDER": "Enter first name",
+    "LAST_NAME_LABEL": "Last name",
+    "LAST_NAME_PLACEHOLDER": "Enter last name",
+    "ORGANIZATION_LABEL": "Organization",
+    "ORGANIZATION_PLACEHOLDER": "Enter organization",
+    "TITLE_LABEL": "Position",
+    "TITLE_PLACEHOLDER": "Enter position",
+    "PHONE_LABEL": "Work phone",
+    "PHONE_PLACEHOLDER": "Enter work phone number",
+    "MOBILE_PHONE_LABEL": "Mobile phone",
+    "MOBILE_PHONE_PLACEHOLDER": "Enter mobile phone number",
+    "FAX_LABEL": "Fax",
+    "FAX_PLACEHOLDER": "Enter fax number",
+    "COUNTRY_LABEL": "Country",
+    "COUNTRY_PLACEHOLDER": "Enter country",
+    "REGION_LABEL": "Region",
+    "REGION_PLACEHOLDER": "Enter region",
+    "CITY_LABEL": "City",
+    "CITY_PLACEHOLDER": "Enter city",
+    "STREET_LABEL": "Street",
+    "STREET_PLACEHOLDER": "Enter street",
+    "POSTCODE_LABEL": "Postcode",
+    "POSTCODE_PLACEHOLDER": "Enter postcode",
+    "URL_LABEL": "URL",
+    "URL_PLACEHOLDER": "Enter URL"
   },
   "WIFI_FORM": {
     "SSID_LABEL": "SSID",
