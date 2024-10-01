@@ -6,7 +6,8 @@
     "MODE_LABEL": "Режим",
     "FILE_TYPE_LABEL": "Тип файла",
     "CELL_SIZE_LABEL": "Размер ячейки",
-    "MARGIN_LABEL": "Отступ"
+    "MARGIN_LABEL": "Отступ",
+    "WIDTH_LABEL": "Ширина (пикс.)"
   },
   "QR_TYPE_OPTIONS": {
     "QXYZ_LABEL": "QXYZ",

@@ -6,7 +6,8 @@
     "MODE_LABEL": "Mode",
     "FILE_TYPE_LABEL": "File Type",
     "CELL_SIZE_LABEL": "Cell Size",
-    "MARGIN_LABEL": "Margin"
+    "MARGIN_LABEL": "Margin",
+    "WIDTH_LABEL": "Width (px)"
   },
   "QR_TYPE_OPTIONS": {
     "QXYZ_LABEL": "QXYZ",

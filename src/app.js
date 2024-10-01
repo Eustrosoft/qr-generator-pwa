@@ -110,6 +110,17 @@ class FormControlBuilder {
           { name: "value", value: 10 },
         ],
       },
+      {
+        tagName: "input",
+        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.WIDTH_LABEL")}: `,
+        attributes: [
+          { name: "name", value: "width" },
+          { name: "type", value: "number" },
+          { name: "min", value: 1 },
+          { name: "max", value: 2048 },
+          { name: "value", value: 500 },
+        ],
+      },
     ];
   }
 
@@ -812,6 +823,7 @@ class URLManager {
     TYPE: "type",
     CORRECTION_LEVEL: "correctionLevel",
     FILE_TYPE: "fileType",
+    WIDTH: "width",
     TEXT: "text",
     URL: "url",
     PHONE: "phone",
@@ -1076,6 +1088,14 @@ class QRCodeApp {
           .map((opt) => opt.value)
           .includes(value),
     });
+
+    this.#applySearchParamsToForm({
+      searchParams,
+      paramKey: URLManager.KEYS.WIDTH,
+      form: this.#settingsForm,
+      formControlName: URLManager.KEYS.WIDTH,
+      paramValidatorFn: (value) => +value >= 1 && +value <= 2048,
+    });
   }
 
   #prefillQRForm() {
@@ -1313,19 +1333,23 @@ class QRCodeApp {
       +qrSettingsData[
         FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[6].attributes[0].value
       ];
+    const width =
+      +qrSettingsData[
+        FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[7].attributes[0].value
+      ];
     const qrFormData = new FormData(form);
     const qrData = Object.fromEntries(qrFormData);
     const qrStr = this.#makeQRStringByType(qrFormType, qrData);
-    console.log(qrStr);
     try {
       this.#generateQRCode({
         data: qrStr,
         typeNumber,
         errorCorrectionLevel,
         mode,
-        representation: fileType,
+        fileType,
         cellSize,
         margin,
+        width,
       });
       const urlPatchObj = {
         [FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[0].attributes[0].value]:
@@ -1334,6 +1358,8 @@ class QRCodeApp {
           errorCorrectionLevel,
         [FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].attributes[0].value]:
           fileType,
+        [FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[7].attributes[0].value]:
+          width,
         ...qrData,
       };
       URLManager.updateUrlWithParams(urlPatchObj);
@@ -1532,6 +1558,7 @@ class QRCodeApp {
     fileType = "gif",
     cellSize = 10,
     margin = 10,
+    width = 500,
   }) {
     qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
     const qr = qrcode(typeNumber, errorCorrectionLevel);
@@ -1541,7 +1568,16 @@ class QRCodeApp {
     this.#qrCodeContainer.style.cssText = "";
     switch (fileType.toUpperCase()) {
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[0].value: {
-        this.#qrCodeContainer.innerHTML = qr.createImgTag(cellSize, margin);
+        const domParser = new DOMParser();
+        const imgHtmlString = qr.createImgTag(cellSize, margin);
+        const parsedDoc = domParser.parseFromString(imgHtmlString, "text/html");
+        const img = parsedDoc.getElementsByTagName("img")[0];
+        const imgSize = width || qr.getModuleCount() * cellSize + margin * 2;
+        img.setAttribute("height", "");
+        img.setAttribute("width", imgSize.toString());
+        img.setAttribute("alt", "QR");
+        img.setAttribute("title", "QR");
+        this.#qrCodeContainer.append(img);
         break;
       }
       case FormControlBuilder.QR_SETTINGS_FORM_CONTROLS[4].options[1].value: {
@@ -1552,9 +1588,8 @@ class QRCodeApp {
         });
         const encodedData = `data:image/svg+xml;base64,${btoa(svgText)}`;
         const img = document.createElement("img");
-        const imgSize = qr.getModuleCount() * cellSize + margin * 2;
+        const imgSize = width || qr.getModuleCount() * cellSize + margin * 2;
         img.setAttribute("width", imgSize.toString());
-        img.setAttribute("height", imgSize.toString());
         img.setAttribute("alt", "QR");
         img.setAttribute("title", "QR");
         img.setAttribute("src", encodedData);
