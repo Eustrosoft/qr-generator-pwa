@@ -7,11 +7,14 @@ class FormControlBuilder {
     return "qr-settings-form-name";
   }
 
+  static get QR_SETTINGS_UL_ID() {
+    return "qr-settings-form-name";
+  }
+
   static get QR_SETTINGS_FORM_CONTROLS() {
     return [
       {
-        tagName: "select",
-        label: `${LocalizationManager.getTranslation("SETTINGS_FORM.QR_TYPE_LABEL")}: `,
+        tagName: "ul",
         attributes: [{ name: "name", value: "type" }],
       },
       {
@@ -723,6 +726,79 @@ class FormControlBuilder {
     return selectLabel;
   }
 
+  makeQrTypeMenu({
+    ulId = FormControlBuilder.QR_SETTINGS_UL_ID,
+    listTag = "ul",
+    elementListTag = "li",
+    itemList = FormControlBuilder.QR_FORM_TYPE_OPT_LIST,
+    formControlName = "type",
+    listStyles = {
+      display: "flex",
+      gap: "10px",
+      padding: "0",
+      margin: "0",
+      "list-style": "none",
+    },
+    listItemStyles = {
+      cursor: "pointer",
+    },
+  }) {
+    const container = document.createElement("div");
+    const list = document.createElement(listTag);
+    list.setAttribute("id", ulId);
+    const optList = Object.values(itemList);
+    for (let i = 0; i < optList.length; i++) {
+      const listItem = document.createElement(elementListTag);
+      listItem.setAttribute("data-value", optList[i].value);
+      for (const key of Object.keys(listItemStyles)) {
+        listItem.style[key] = listItemStyles[key];
+      }
+      listItem.append(optList[i].label);
+      list.append(listItem);
+    }
+    const formControl = document.createElement("input");
+    formControl.setAttribute("type", "text");
+    formControl.setAttribute("name", formControlName);
+    formControl.setAttribute("hidden", "hidden");
+
+    formControl.addEventListener("change", function () {
+      for (const lItem of list.getElementsByTagName("li")) {
+        lItem.style.textDecoration = "none";
+      }
+      const el = list.querySelector(`[data-value="${this.value}"]`);
+      el.style.textDecoration = "underline";
+    });
+
+    for (const listItem of list.children) {
+      listItem.addEventListener("click", function () {
+        for (const lItem of list.getElementsByTagName("li")) {
+          lItem.style.textDecoration = "none";
+        }
+        this.style.textDecoration = "underline";
+        formControl.value = this.getAttribute("data-value");
+        const event = new Event("change", {
+          bubbles: true,
+          cancelable: true,
+        });
+        formControl.dispatchEvent(event);
+      });
+    }
+
+    for (const key of Object.keys(listStyles)) {
+      list.style[key] = listStyles[key];
+    }
+
+    list.children[0].dispatchEvent(
+      new Event("click", {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+
+    container.append(list, formControl);
+    return container;
+  }
+
   makeForm({
     formId = FormControlBuilder.DATA_FORM_ID,
     formName = FormControlBuilder.DATA_FORM_NAME,
@@ -807,6 +883,11 @@ class FormControlBuilder {
             styles: control.styles ?? {},
           });
           form.append(select);
+          break;
+        }
+        case "ul": {
+          const list = this.makeQrTypeMenu({ listTag: "ul" });
+          form.append(list);
           break;
         }
         default: {
@@ -970,7 +1051,7 @@ class LocalizationManager {
 
 class QRCodeApp {
   #formBuilder;
-  #qrSettingsContainer = document.getElementById("qr-settings-container");
+  #qrSettingsFormContainer = document.getElementById("qr-settings-container");
   #formContainer = document.getElementById("form-container");
   #generateButtonContainer = document.getElementById(
     "generate-button-container",
@@ -1010,7 +1091,7 @@ class QRCodeApp {
     });
 
     this.#settingsForm = filledForm;
-    this.#qrSettingsContainer.append(filledForm);
+    this.#qrSettingsFormContainer.append(filledForm);
   }
 
   #setupForm(formType = FormControlBuilder.QR_FORM_TYPE_OPT_LIST.QXYZ.value) {
