@@ -762,6 +762,7 @@ class FormControlBuilder {
     formControl.setAttribute("hidden", "hidden");
 
     formControl.addEventListener("change", function () {
+      this.setAttribute("value", this.value);
       for (const lItem of list.getElementsByTagName("li")) {
         lItem.style.textDecoration = "none";
       }
@@ -775,7 +776,9 @@ class FormControlBuilder {
           lItem.style.textDecoration = "none";
         }
         this.style.textDecoration = "underline";
-        formControl.value = this.getAttribute("data-value");
+        const value = this.getAttribute("data-value");
+        formControl.value = value;
+        formControl.setAttribute("value", value);
         const event = new Event("change", {
           bubbles: true,
           cancelable: true,
